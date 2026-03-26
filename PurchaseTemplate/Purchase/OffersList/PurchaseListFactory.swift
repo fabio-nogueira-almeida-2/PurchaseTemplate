@@ -3,14 +3,9 @@ import UIKit
 enum PurchaseListFactory {
     static func make(productId: String, productTypeId: String) -> UIViewController {
         let dependencies = DependencyContainer()
-        let service = PurchaseListService(service: dependencies.coreService
-            .onMainThread(dependencies: dependencies)
-            .sentinel(
-                dependencies: dependencies, info: .init(scene: "Purchase Offers List")
-            )
-        )
+        let service = PurchaseListService(service: dependencies.coreService)
         let coordinator = PurchaseListCoordinator(dependencies: dependencies)
-        let presenter = PurchaseListPresenter(coordinator: coordinator, dependencies: dependencies)
+        let presenter = PurchaseListPresenter(coordinator: coordinator, dependencies: HasNoDependencyImpl())
         let interactor = PurchaseListInteractor(
             service: service,
             presenter: presenter,
@@ -26,3 +21,5 @@ enum PurchaseListFactory {
         return viewController
     }
 }
+
+struct HasNoDependencyImpl: HasNoDependency {}

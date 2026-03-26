@@ -1,4 +1,4 @@
-import CoreTrackingInterface
+import Foundation
 
 protocol PurchaseDetailInteracting: AnyObject {
     func fetchData()
@@ -16,17 +16,20 @@ final class PurchaseDetailInteractor {
     private var model: PurchaseProductModel?
     private let productId: String
     private let offerId: String
+    private let productTypeId: String?
 
     // MARK: - Initialize
     init(
         offerId: String,
         productId: String,
+        productTypeId: String?,
         service: PurchaseDetailServicing,
         presenter: PurchaseDetailPresenting,
         dependencies: Dependencies
     ) {
         self.offerId = offerId
         self.productId = productId
+        self.productTypeId = productTypeId
         self.service = service
         self.presenter = presenter
         self.dependencies = dependencies
@@ -39,7 +42,8 @@ extension PurchaseDetailInteractor: PurchaseDetailInteracting {
         presenter.startLoading()
         service.getOffer(
             productId: productId,
-            offerId: offerId
+            offerId: offerId,
+            productTypeId: productTypeId
         ) { [weak self] result in
             switch result {
                 case .success(let model):

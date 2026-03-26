@@ -1,14 +1,4 @@
-import CoreTrackingInterface
-
-struct PurchaseOrderModel: Equatable {
-    var offerId: String
-    var productId: String
-    var value: Double
-    var quantity: Int
-    let tokenValue: Int
-    let typeName: String
-    let productName: String
-}
+import Foundation
 
 final class PurchaseInputValueInteractor {
     private var orderModel: PurchaseOrderModel
@@ -79,10 +69,10 @@ private extension PurchaseInputValueInteractor {
 
         var balance = rules.balance
         if balance == nil {
-            if rules.balanceOrigin == "picpay" {
-                balance = rules.balances.picpay
+            if rules.balanceOrigin == "wallet" {
+                balance = rules.balances.wallet
             } else {
-                balance = rules.balances.picpayInvest
+                balance = rules.balances.invest
             }
         }
 

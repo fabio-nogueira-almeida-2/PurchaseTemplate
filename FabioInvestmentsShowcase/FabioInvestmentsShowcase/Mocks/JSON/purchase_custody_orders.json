@@ -1,0 +1,211 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "name": {
+        "value": "Tesouro Selic 2029",
+        "style": "title2"
+      },
+      "product": {
+        "id": 1,
+        "name": {
+          "value": "Tesouro Selic",
+          "style": "body1"
+        }
+      },
+      "productType": {
+        "id": 1,
+        "name": {
+          "value": "Fixed Income",
+          "style": "body1"
+        },
+        "description": {
+          "value": "Government bonds with inflation protection",
+          "style": "caption"
+        }
+      },
+      "information": {
+        "metadatas": [
+          {
+            "label": {
+              "value": "Amount",
+              "style": "body1"
+            },
+            "value": {
+              "value": "R$ 5.000,00",
+              "style": "title3"
+            }
+          },
+          {
+            "label": {
+              "value": "Purchase Date",
+              "style": "body1"
+            },
+            "value": {
+              "value": "15/01/2024",
+              "style": "body2"
+            }
+          },
+          {
+            "label": {
+              "value": "Maturity",
+              "style": "body1"
+            },
+            "value": {
+              "value": "01/01/2029",
+              "style": "body2"
+            }
+          },
+          {
+            "label": {
+              "value": "Rate",
+              "style": "body1"
+            },
+            "value": {
+              "value": "SELIC + 0.5%",
+              "style": "body2"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "name": {
+        "value": "CDB Banco XYZ",
+        "style": "title2"
+      },
+      "product": {
+        "id": 2,
+        "name": {
+          "value": "CDB",
+          "style": "body1"
+        }
+      },
+      "productType": {
+        "id": 2,
+        "name": {
+          "value": "Bank Deposit",
+          "style": "body1"
+        },
+        "description": {
+          "value": "Bank certificates of deposit",
+          "style": "caption"
+        }
+      },
+      "information": {
+        "metadatas": [
+          {
+            "label": {
+              "value": "Amount",
+              "style": "body1"
+            },
+            "value": {
+              "value": "R$ 3.000,00",
+              "style": "title3"
+            }
+          },
+          {
+            "label": {
+              "value": "Purchase Date",
+              "style": "body1"
+            },
+            "value": {
+              "value": "20/01/2024",
+              "style": "body2"
+            }
+          },
+          {
+            "label": {
+              "value": "Maturity",
+              "style": "body1"
+            },
+            "value": {
+              "value": "20/01/2025",
+              "style": "body2"
+            }
+          },
+          {
+            "label": {
+              "value": "Rate",
+              "style": "body1"
+            },
+            "value": {
+              "value": "110% CDI",
+              "style": "body2"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "name": {
+        "value": "Music Royalties - Billie Eilish",
+        "style": "title2"
+      },
+      "product": {
+        "id": 3,
+        "name": {
+          "value": "Music Royalties",
+          "style": "body1"
+        }
+      },
+      "productType": {
+        "id": 3,
+        "name": {
+          "value": "Publishing Rights",
+          "style": "body1"
+        },
+        "description": {
+          "value": "Music publishing and composition rights",
+          "style": "caption"
+        }
+      },
+      "information": {
+        "metadatas": [
+          {
+            "label": {
+              "value": "Amount",
+              "style": "body1"
+            },
+            "value": {
+              "value": "R$ 8.500,00",
+              "style": "title3"
+            }
+          },
+          {
+            "label": {
+              "value": "Purchase Date",
+              "style": "body1"
+            },
+            "value": {
+              "value": "05/01/2024",
+              "style": "body2"
+            }
+          },
+          {
+            "label": {
+              "value": "Expected Yield",
+              "style": "body1"
+            },
+            "value": {
+              "value": "6-10% annually",
+              "style": "body2"
+            }
+          },
+          {
+            "label": {
+              "value": "Streaming Performance",
+              "style": "body1"
+            },
+            "value": {
+              "value": "1.8B+ streams",
+              "style": "body2"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

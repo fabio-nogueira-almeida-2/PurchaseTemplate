@@ -1,3 +1,5 @@
+import Foundation
+
 protocol PurchaseResultPresenting: AnyObject {
     func openCatalog()
     func openExtract(productId: String)

@@ -1,0 +1,181 @@
+@startuml Fabio_Investment_Flows_Data_Flow
+!theme spacelab
+title Fabio's Investment Flows - Backend Template Data Flow
+
+skinparam backgroundColor #FFFFFF
+skinparam componentStyle rectangle
+skinparam packageStyle rectangle
+
+skinparam component {
+    BackgroundColor #E8F5E8
+    BorderColor #388E3C
+    FontColor #000000
+}
+
+skinparam package {
+    BackgroundColor #E3F2FD
+    BorderColor #1976D2
+    FontColor #000000
+}
+
+' Backend Template Architecture Flow
+package "Backend Template Architecture" {
+    
+    component [Backend API] as API
+    component [Product Data] as PD
+    component [StringToken Content] as STC
+    component [Metadata Structure] as MS
+    component [Styling Information] as SI
+    
+    component [StringToken Parser] as STP
+    component [Value Extraction] as VE
+    component [Style Mapping] as SM
+    component [Typography Resolution] as TR
+    
+    component [Metadata Processor] as MP
+    component [Field Mapping] as FM
+    component [Section Generation] as SG
+    component [Content Organization] as CO
+    
+    component [Dynamic Content Generator] as DCG
+    component [UI Component Builder] as UCB
+    component [Layout Manager] as LM
+    component [Template Engine] as TE
+    
+    component [Rendered UI] as RUI
+    component [Dynamic Labels] as DL
+    component [Styled Text] as ST
+    component [Organized Sections] as OS
+    component [Interactive Elements] as IE
+}
+
+' Data Flow
+API --> STP : "Raw StringToken Data"
+note right: {"value": "Investment Title", "style": "header1"}
+
+STP --> MP : "Parsed StringWithTypograph"
+note right: StringWithTypograph(value: "Investment Title", typograph: .header1)
+
+MP --> DCG : "Processed Metadata"
+note right: [Field(label: "Amount", value: "R$ 1.000,00")]
+
+DCG --> RUI : "Dynamic UI Components"
+note right: Styled labels, organized sections, interactive elements
+
+' Backend Template Benefits
+note top of API
+  **Backend Template Benefits:**
+  
+  ✅ **Dynamic Content**: Backend controls all text and styling
+  ✅ **A/B Testing**: Easy content experimentation
+  ✅ **Rapid Iteration**: Changes without app updates
+  ✅ **Consistency**: Unified styling across flows
+  ✅ **Localization**: Multi-language support
+  ✅ **Performance**: Optimized rendering
+end note
+
+' StringToken System Details
+note right of STP
+  **StringToken System:**
+  
+  **Input Format:**
+  ```json
+  {
+    "value": "Investment Amount",
+    "style": "body1"
+  }
+  ```
+  
+  **Processing:**
+  1. Extract value and style
+  2. Map style to PurchaseTypograph
+  3. Create StringWithTypograph object
+  4. Apply typography rules
+end note
+
+' Metadata Processing Details
+note right of MP
+  **Metadata Processing:**
+  
+  **Input Structure:**
+  ```json
+  {
+    "metadatas": [
+      {
+        "label": {"value": "Amount", "style": "body1"},
+        "value": {"value": "R$ 1.000,00", "style": "title3"}
+      }
+    ]
+  }
+  ```
+  
+  **Processing:**
+  1. Parse metadata arrays
+  2. Generate field mappings
+  3. Create section layouts
+  4. Organize content structure
+end note
+
+' Dynamic Content Generation
+note right of DCG
+  **Dynamic Content Generation:**
+  
+  **Features:**
+  - Build UI components from metadata
+  - Apply backend-controlled styling
+  - Support A/B testing variations
+  - Optimize performance
+  - Handle complex layouts
+  
+  **Output:**
+  - Styled text components
+  - Organized sections
+  - Interactive elements
+  - Responsive layouts
+end note
+
+' Rendered UI Features
+note right of RUI
+  **Rendered UI Features:**
+  
+  **Dynamic Elements:**
+  - Backend-controlled text
+  - Dynamic styling
+  - Organized sections
+  - Interactive components
+  
+  **Benefits:**
+  - Consistent user experience
+  - Easy content updates
+  - A/B testing support
+  - Multi-language support
+  - Performance optimization
+end note
+
+' System Architecture Benefits
+note bottom
+  **System Architecture Benefits:**
+  
+  **Backend Template Architecture:**
+  - 🎯 **Dynamic Content**: Backend controls all content and styling
+  - 🧪 **A/B Testing**: Easy experimentation without app updates
+  - ⚡ **Rapid Iteration**: Content changes without app store releases
+  - 🎨 **Consistency**: Unified styling across all investment flows
+  - 🌍 **Localization**: Multi-language support through backend configuration
+  - 🚀 **Performance**: Optimized rendering and caching
+  
+  **VIP Architecture:**
+  - 🏗️ **Clean Architecture**: Clear separation of concerns
+  - 🧪 **Testability**: Easy to test and mock components
+  - 🔧 **Maintainability**: Easy to maintain and extend
+  - 📈 **Scalability**: Scales with application growth
+  - 🔒 **Security**: Built-in security and privacy protection
+  
+  **Navigation & Coordination:**
+  - 🧭 **Flexible Navigation**: Coordinator pattern for complex flows
+  - 🔗 **Deep Linking**: Comprehensive deep linking support
+  - 📱 **Flow Management**: Seamless user experience
+  - 🔧 **Dependency Injection**: Loose coupling and testability
+end note
+
+@enduml

@@ -1,3 +1,5 @@
+// MARK: - TEMPORARILY COMMENTED OUT - Focus on Welcome screen only
+#if false
 import UIKit
 
 enum PurchaseOrderDetailFactory {
@@ -26,3 +28,4 @@ enum PurchaseOrderDetailFactory {
         return viewController
     }
 }
+#endif

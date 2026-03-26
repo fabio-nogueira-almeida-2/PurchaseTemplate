@@ -1,5 +1,4 @@
-import Core
-import CoreNetworkingInterface
+import Foundation
 
 protocol PurchaseCustodyServicing {
     func getCustody(productId: String, completion: @escaping (Result<PurchaseCustodyService.Response, ApiError>) -> Void)
@@ -45,25 +44,46 @@ final class PurchaseCustodyService {
 extension PurchaseCustodyService: PurchaseCustodyServicing {
     func getPosition(productId: String, completion: @escaping (Result<PurchaseCustodyService.PositionResponse, ApiError>) -> Void) {
         let endpoint: InvestmentsEndpoint = .purchaseCustodyPosition(productId: productId)
-        let decoder = JSONDecoder(.useDefaultKeys)
-        task = service.request(endpoint: endpoint, decoder: decoder) { [weak self] result in
-            completion(result.mapError(\.apiError))
+        let decoder = JSONDecoder.useDefaultKeys()
+        task = service.request(endpoint: endpoint, decoder: decoder) { [weak self] (result: Result<PurchaseCustodyService.PositionResponse, Error>) in
+            guard self != nil else { return }
+            let mappedResult = result.mapError { error -> ApiError in
+                if let apiError = error as? ApiError {
+                    return apiError
+                }
+                return ApiError.unknown
+            }
+            completion(mappedResult)
         }
     }
 
     func getCustody(productId: String, completion: @escaping (Result<PurchaseCustodyService.Response, ApiError>) -> Void) {
         let endpoint: InvestmentsEndpoint = .purchaseCustody(productId: productId)
-        let decoder = JSONDecoder(.convertFromSnakeCase)
-        task = service.request(endpoint: endpoint, decoder: decoder) { [weak self] result in
-            completion(result.mapError(\.apiError))
+        let decoder = JSONDecoder.useDefaultKeys()
+        task = service.request(endpoint: endpoint, decoder: decoder) { [weak self] (result: Result<PurchaseCustodyService.Response, Error>) in
+            guard self != nil else { return }
+            let mappedResult = result.mapError { error -> ApiError in
+                if let apiError = error as? ApiError {
+                    return apiError
+                }
+                return ApiError.unknown
+            }
+            completion(mappedResult)
         }
     }
 
     func getOrder(productId: String, completion: @escaping (Result<PurchaseCustodyService.Response, ApiError>) -> Void) {
         let endpoint: InvestmentsEndpoint = .purchaseOrders(productId: productId)
-        let decoder = JSONDecoder(.useDefaultKeys)
-        task = service.request(endpoint: endpoint, decoder: decoder) { [weak self] result in
-            completion(result.mapError(\.apiError))
+        let decoder = JSONDecoder.useDefaultKeys()
+        task = service.request(endpoint: endpoint, decoder: decoder) { [weak self] (result: Result<PurchaseCustodyService.Response, Error>) in
+            guard self != nil else { return }
+            let mappedResult = result.mapError { error -> ApiError in
+                if let apiError = error as? ApiError {
+                    return apiError
+                }
+                return ApiError.unknown
+            }
+            completion(mappedResult)
         }
     }
 }

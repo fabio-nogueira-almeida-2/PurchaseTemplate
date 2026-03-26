@@ -1,7 +1,8 @@
-import Apollo
-import UI
+import UIKit
 
 final class PurchaseDetailTableViewCell: UITableViewCell, ViewConfiguration {
+    static let identifier = "PurchaseDetailTableViewCell"
+    
     // MARK: - Properties
     private var model: PurchaseProductModel?
 
@@ -15,18 +16,22 @@ final class PurchaseDetailTableViewCell: UITableViewCell, ViewConfiguration {
 
     private lazy var detailText: Text = {
         let view = Text()
-        view.font(Font.body.highlighted)
+        view.font(Font.body)
         view.foreground(color: .grayScale900)
         return view
     }()
 
     private lazy var lineView: UIView = {
         let view = UIView()
-        view.background(color: .grayScale200)
+        view.backgroundColor = Color.grayScale200.uiColor
         return view
     }()
 
-    private lazy var documentIcon = UIImageView()
+    private lazy var documentIcon: UIImageView = {
+        let view = UIImageView()
+        view.contentMode = .scaleAspectFit
+        return view
+    }()
 
     private lazy var documentTitle: Text = {
         let view = Text()
@@ -35,7 +40,14 @@ final class PurchaseDetailTableViewCell: UITableViewCell, ViewConfiguration {
         return view
     }()
 
-    private lazy var arrowView = UIImageView(image: Icon.angleRightB.image)
+    private lazy var arrowView: UIImageView = {
+        let view = UIImageView()
+        if let icon = Icon(rawValue: "angle.right.b") {
+            view.image = icon.image
+        }
+        view.contentMode = .scaleAspectFit
+        return view
+    }()
 
     private lazy var documentCell: UIStackView = {
         let stack = UIStackView()
@@ -70,22 +82,26 @@ final class PurchaseDetailTableViewCell: UITableViewCell, ViewConfiguration {
     func setupConstraints() {
         titleText.snp.makeConstraints {
             $0.top.equalToSuperview().inset(Space.base04.rawValue)
-            $0.leading.trailing.equalToSuperview().inset(Space.base04.rawValue)
+            $0.leading.equalToSuperview().inset(Space.base04.rawValue)
+            $0.trailing.equalToSuperview().inset(Space.base04.rawValue)
         }
         detailText.snp.makeConstraints {
             $0.top.equalTo(titleText.snp.bottom).offset(Space.base02.rawValue)
-            $0.leading.trailing.equalToSuperview().inset(Space.base04.rawValue)
+            $0.leading.equalToSuperview().inset(Space.base04.rawValue)
+            $0.trailing.equalToSuperview().inset(Space.base04.rawValue)
             $0.bottom.equalToSuperview().inset(Space.base04.rawValue)
         }
         lineView.snp.makeConstraints {
             $0.height.equalTo(1)
-            $0.leading.trailing.equalToSuperview()
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview()
             $0.bottom.equalToSuperview()
         }
 
         documentCell.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.leading.trailing.equalToSuperview().inset(Space.base04.rawValue)
+            $0.leading.equalToSuperview().inset(Space.base04.rawValue)
+            $0.trailing.equalToSuperview().inset(Space.base04.rawValue)
         }
 
         documentIcon.snp.makeConstraints {
@@ -93,7 +109,8 @@ final class PurchaseDetailTableViewCell: UITableViewCell, ViewConfiguration {
         }
 
         arrowView.snp.makeConstraints {
-            $0.size.equalTo(Space.base04.rawValue)
+            $0.width.equalTo(Space.base04.rawValue)
+            $0.height.equalTo(Space.base04.rawValue)
         }
     }
 
@@ -106,24 +123,26 @@ final class PurchaseDetailTableViewCell: UITableViewCell, ViewConfiguration {
     func setup(with model: PurchaseDetailDTO.Field) {
         documentCell.isHidden = true
         if let title = model.label {
-            titleText.hidden(false)
+            titleText.isHidden = false
             titleText.value = title.value
-            titleText.setTypograph(title.typograph)
+            titleText.setTypograph(title.typograph.rawValue)
         }
         if let detail = model.value {
-            detailText.hidden(false)
+            detailText.isHidden = false
             detailText.value = detail.value
-            detailText.setTypograph(detail.typograph)
+            detailText.setTypograph(detail.typograph.rawValue)
         }
     }
 
     func setup(with model: PurchaseDetailDTO.DocumentItem) {
-        titleText.hidden(true)
-        detailText.hidden(true)
+        titleText.isHidden = true
+        detailText.isHidden = true
         titleText.value = ""
         detailText.value = ""
         documentCell.isHidden = false
         documentTitle.value = model.name
-        documentIcon.image = (Icon(rawValue: model.imageIcon) ?? Icon.documentInfo).image
+        if let icon = Icon(rawValue: model.imageIcon) {
+            documentIcon.image = icon.image
+        }
     }
 }

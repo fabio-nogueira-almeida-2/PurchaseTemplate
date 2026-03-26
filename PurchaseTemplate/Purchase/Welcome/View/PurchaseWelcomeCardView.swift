@@ -1,5 +1,6 @@
-import Apollo
-import UI
+// import Apollo // Commented out - replaced with mock implementation
+// import UI // Commented out - replaced with mock implementation
+import UIKit
 
 final class PurchaseWelcomeCardView: UIView, ViewConfiguration {
     // MARK: - View
@@ -7,7 +8,7 @@ final class PurchaseWelcomeCardView: UIView, ViewConfiguration {
         let view = Avatar()
         view.style(.circle)
         view.size(.medium)
-        view.background(color: .primary200.opacity(.light))
+        view.background(color: Color.primary200.uiColor.withAlphaComponent(0.1))
         view.foreground(color: .primary500)
         return view
     }()
@@ -15,6 +16,7 @@ final class PurchaseWelcomeCardView: UIView, ViewConfiguration {
     lazy var titleText: Text = {
         let view = Text()
         view.font(Font.small)
+        view.numberOfLines = 0
         return view
     }()
 
@@ -22,6 +24,7 @@ final class PurchaseWelcomeCardView: UIView, ViewConfiguration {
         let view = Text()
         view.font(Font.note)
         view.lineLimit(2)
+        view.numberOfLines = 0
         view.foreground(color: .grayScale800)
         return view
     }()
@@ -59,6 +62,10 @@ final class PurchaseWelcomeCardView: UIView, ViewConfiguration {
         nil
     }
 
+    func configureViews() {
+        // Configure view appearance if needed
+    }
+
     // MARK: - ViewConfiguration
     func buildViewHierarchy() {
         addSubview(avatar)
@@ -71,6 +78,8 @@ final class PurchaseWelcomeCardView: UIView, ViewConfiguration {
         avatar.snp.makeConstraints {
             $0.leading.equalToSuperview()
             $0.centerY.equalToSuperview()
+            $0.width.equalTo(40)
+            $0.height.equalTo(40)
         }
         titleText.snp.makeConstraints {
             $0.top.equalToSuperview().inset(Space.base02.rawValue)
@@ -86,7 +95,8 @@ final class PurchaseWelcomeCardView: UIView, ViewConfiguration {
         line.snp.makeConstraints {
             $0.height.equalTo(1)
             $0.width.equalToSuperview()
-            $0.leading.trailing.equalToSuperview()
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview()
             $0.bottom.equalToSuperview()
         }
     }

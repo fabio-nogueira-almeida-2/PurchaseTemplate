@@ -1,8 +1,8 @@
-import Apollo
-import SkeletonView
-import UI
+// import Apollo // Commented out - replaced with mock implementation
+// import SkeletonView // Commented out - replaced with mock implementation
+// import UI // Commented out - replaced with mock implementation
 import UIKit
-import UIKitUtilities
+// import UIKitUtilities // Commented out - replaced with mock implementation
 
 // MARK: - Layout
 private extension PurchaseWelcomeSkeletonView.Layout {
@@ -62,22 +62,26 @@ final class PurchaseWelcomeSkeletonView: UIView, ViewConfiguration, StatefulView
     }
 
     func buildViewHierarchy() {
-        addSubviews(rootStackView)
+        addSubview(rootStackView)
         rootStackView.addArrangedSubview(headerStackView)
         rootStackView.addArrangedSubview(bodyStackView)
     }
 
     func setupConstraints() {
         rootStackView.snp.makeConstraints {
-            $0.top.trailing.leading.equalToSuperview().inset(Space.base04.rawValue)
+            $0.top.equalToSuperview().inset(Space.base04.rawValue)
+            $0.trailing.equalToSuperview().inset(Space.base04.rawValue)
+            $0.leading.equalToSuperview().inset(Space.base04.rawValue)
         }
 
         headerStackView.snp.makeConstraints {
-            $0.trailing.leading.equalToSuperview()
+            $0.trailing.equalToSuperview()
+            $0.leading.equalToSuperview()
         }
 
         bodyStackView.snp.makeConstraints {
-            $0.trailing.leading.equalToSuperview()
+            $0.trailing.equalToSuperview()
+            $0.leading.equalToSuperview()
         }
 
         setupHeader()
@@ -90,10 +94,29 @@ final class PurchaseWelcomeSkeletonView: UIView, ViewConfiguration, StatefulView
         view.background(color: .grayScale200)
         view.corner(radius: cornerRadius)
         view.clipsToBounds = true
-        view.isSkeletonable = true
-        let gradient = SkeletonGradient(baseColor: Color.grayScale200.color)
-        view.showAnimatedGradientSkeleton(usingGradient: gradient)
+        // Simple skeleton animation without SkeletonView library
+        addSkeletonAnimation(to: view)
         return view
+    }
+    
+    private func addSkeletonAnimation(to view: UIView) {
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.colors = [
+            Color.grayScale200.uiColor.cgColor,
+            Color.grayScale200.uiColor.withAlphaComponent(0.5).cgColor,
+            Color.grayScale200.uiColor.cgColor
+        ]
+        gradientLayer.locations = [0, 0.5, 1]
+        gradientLayer.startPoint = CGPoint(x: 0, y: 0.5)
+        gradientLayer.endPoint = CGPoint(x: 1, y: 0.5)
+        view.layer.addSublayer(gradientLayer)
+        
+        let animation = CABasicAnimation(keyPath: "transform.translation.x")
+        animation.fromValue = -view.bounds.width
+        animation.toValue = view.bounds.width
+        animation.duration = 1.5
+        animation.repeatCount = .infinity
+        gradientLayer.add(animation, forKey: "skeleton")
     }
 
     private func setupHeader() {
@@ -111,7 +134,8 @@ final class PurchaseWelcomeSkeletonView: UIView, ViewConfiguration, StatefulView
             let view = UIView()
             bodyStackView.addArrangedSubview(view)
             view.snp.makeConstraints {
-                $0.trailing.leading.equalToSuperview()
+                $0.trailing.equalToSuperview()
+                $0.leading.equalToSuperview()
                 $0.height.equalTo(Layout.Size.listItemHeight)
             }
 
@@ -119,7 +143,8 @@ final class PurchaseWelcomeSkeletonView: UIView, ViewConfiguration, StatefulView
             view.addSubview(icon)
             icon.snp.makeConstraints {
                 $0.size.equalTo(Space.base06.rawValue)
-                $0.centerY.leading.equalToSuperview()
+                $0.centerY.equalToSuperview()
+                $0.leading.equalToSuperview()
             }
 
             let textStack = UIStackView()
@@ -130,8 +155,10 @@ final class PurchaseWelcomeSkeletonView: UIView, ViewConfiguration, StatefulView
             addLineItem(to: textStack)
             addLineItem(to: textStack, inset: Space.base12.rawValue)
             textStack.snp.makeConstraints {
-                $0.leading.equalTo(icon.snp.trailing).offset(Space.base03.rawValue)
-                $0.centerY.trailing.equalToSuperview()
+                let offset = Space.base03.rawValue
+                $0.leading.equalTo(icon.snp.trailing).offset(offset)
+                $0.centerY.equalToSuperview()
+                $0.trailing.equalToSuperview()
             }
         }
     }
@@ -167,7 +194,8 @@ final class PurchaseWelcomeSkeletonView: UIView, ViewConfiguration, StatefulView
         stack.addArrangedSubview(button)
         button.snp.makeConstraints {
             $0.height.equalTo(Space.base08.rawValue)
-            $0.leading.trailing.equalToSuperview()
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview()
         }
     }
 }

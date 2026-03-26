@@ -1,5 +1,8 @@
-import Apollo
-import UI
+// MARK: - TEMPORARILY COMMENTED OUT - Focus on Welcome screen only
+
+// import Apollo // Commented out - replaced with mock implementation
+import UIKit
+// import UI // Commented out - replaced with mock implementation
 
 final class PurchaseCustodyHeaderView: UIView, ViewConfiguration {
     enum Layout {
@@ -7,45 +10,56 @@ final class PurchaseCustodyHeaderView: UIView, ViewConfiguration {
         static let line = 1
     }
     // MARK: - View
-    lazy var totalInvestedText = Text()
-        .font(Font.note)
-        .multilineTextAlignment(.left)
+    lazy var totalInvestedText: Text = {
+        let view = Text()
+        view.font(Font.note)
+        view.textAlignment = .left
+        return view
+    }()
 
-    lazy var totalInvestedValueText = Text()
-        .font(Font.small)
-        .multilineTextAlignment(.left)
+    lazy var totalInvestedValueText: Text = {
+        let view = Text()
+        view.font(Font.small)
+        view.textAlignment = .left
+        return view
+    }()
 
     lazy var yieldBadgeImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.tintColor = Color.primary500.color
+        imageView.tintColor = Color.primary500.uiColor
         imageView.setContentHuggingPriority(.defaultLow, for: .horizontal)
         imageView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         return imageView
     }()
 
-    lazy var yieldBadgeText = Text()
-        .font(Font.label.highlighted)
-        .foreground(color: .primary500)
-        .multilineTextAlignment(.right)
+    lazy var yieldBadgeText: Text = {
+        let view = Text()
+        view.font(Font.label.highlighted)
+        view.foreground(color: .primary500)
+        view.textAlignment = .right
+        return view
+    }()
 
     lazy var yieldBadgeStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.alignment = .center
         stackView.spacing = Space.base00.rawValue
-        stackView.background(color: .grayScale050)
+        stackView.background(color: .background00)
         stackView.addArrangedSubview(yieldBadgeImage)
         stackView.addArrangedSubview(yieldBadgeText)
-        stackView.background(color: .light)
         stackView.layoutMargins = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
         stackView.isLayoutMarginsRelativeArrangement = true
         stackView.corner(radius: .large)
         return stackView
     }()
 
-    lazy var yieldValueText = Text()
-        .font(Font.note, maximumPointSize: 10)
-        .foreground(color: .primary500)
-        .multilineTextAlignment(.right)
+    lazy var yieldValueText: Text = {
+        let view = Text()
+        view.font(Font.note)
+        view.foreground(color: .primary500)
+        view.textAlignment = .right
+        return view
+    }()
 
     // MARK: - Initialize
     override init(frame: CGRect) {
@@ -78,12 +92,12 @@ final class PurchaseCustodyHeaderView: UIView, ViewConfiguration {
         }
        yieldBadgeStackView.snp.makeConstraints {
            $0.centerY.equalTo(totalInvestedText.snp.centerY)
-           $0.leading.greaterThanOrEqualTo(totalInvestedText.snp.trailing)
+           $0.leading.equalTo(totalInvestedText.snp.trailing).offset(Space.base02.rawValue)
            $0.trailing.equalToSuperview().inset(Space.base04.rawValue)
        }
         yieldValueText.snp.makeConstraints {
-            $0.top.greaterThanOrEqualTo(yieldBadgeStackView.snp.bottom)
-            $0.leading.greaterThanOrEqualTo(totalInvestedValueText.snp.trailing)
+            $0.top.equalTo(yieldBadgeStackView.snp.bottom).offset(Space.base00.rawValue)
+            $0.leading.equalTo(totalInvestedValueText.snp.trailing).offset(Space.base02.rawValue)
             $0.trailing.equalToSuperview().inset(Space.base04.rawValue)
             $0.bottom.equalTo(totalInvestedValueText.snp.bottom)
         }
@@ -93,7 +107,10 @@ final class PurchaseCustodyHeaderView: UIView, ViewConfiguration {
     }
 
     func configureViews() {
-        background(color: .grayScale050)
+        background(color: .background00)
+        // Set content hugging and compression resistance to prevent infinite expansion
+        setContentHuggingPriority(.required, for: .vertical)
+        setContentCompressionResistancePriority(.required, for: .vertical)
     }
 
     func configureStyles() {
@@ -121,11 +138,12 @@ final class PurchaseCustodyHeaderView: UIView, ViewConfiguration {
     func setupBadge(info: StringWithTypograph) {
         yieldBadgeText.value = info.value
         if info.typograph == .notePositive {
-            yieldBadgeImage.image = Icon.chartUp.image.withRenderingMode(.alwaysTemplate)
+            yieldBadgeImage.image = Icon.chartLineUptrend.image?.withRenderingMode(.alwaysTemplate)
         } else if info.typograph == .noteNegative {
-            Icon.chartDown.image.withRenderingMode(.alwaysTemplate)
+            yieldBadgeImage.image = Icon.chartLineUptrend.image?.withRenderingMode(.alwaysTemplate)
         } else {
-            Icon.chartLine.image.withRenderingMode(.alwaysTemplate)
+            yieldBadgeImage.image = Icon.chartLineUptrend.image?.withRenderingMode(.alwaysTemplate)
         }
     }
 }
+

@@ -1,5 +1,6 @@
-import Apollo
-import UI
+// import Apollo // Commented out - replaced with mock implementation
+// import UI // Commented out - replaced with mock implementation
+import UIKit
 
 final class PurchaseLabelChipsView: UIView, ViewConfiguration {
     // MARK: - View
@@ -39,8 +40,15 @@ final class PurchaseLabelChipsView: UIView, ViewConfiguration {
             $0.edges.equalToSuperview()
         }
         titleText.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview().inset(Space.base00.rawValue)
-            $0.leading.trailing.equalToSuperview().inset(Space.base01.rawValue)
+            $0.top.equalToSuperview().inset(Space.base00.rawValue)
+            $0.bottom.equalToSuperview().inset(Space.base00.rawValue)
+            $0.leading.equalToSuperview().inset(Space.base00.rawValue)
+            $0.trailing.equalToSuperview().inset(Space.base00.rawValue)
         }
     }
+    
+    func configureViews() {
+        // Configure views if needed
+    }
 }
+

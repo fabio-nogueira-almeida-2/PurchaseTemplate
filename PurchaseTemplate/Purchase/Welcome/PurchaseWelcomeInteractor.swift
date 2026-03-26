@@ -1,5 +1,6 @@
-import CoreTrackingInterface
-import FeatureFlag
+// import CoreTrackingInterface // Commented out - replaced with mock implementation
+// import FeatureFlag // Commented out - replaced with mock implementation
+import Foundation
 
 protocol PurchaseWelcomeInteracting: AnyObject {
     func loadWelcomeData()
@@ -46,8 +47,10 @@ extension PurchaseWelcomeInteractor: PurchaseWelcomeInteracting {
                                productTypeId: productTypeId) { [weak self] result in
             switch result {
             case .success(let response):
-                    self?.presenter.present(model: response.data)
+                print("✅ Interactor received success: \(response.data.items.count) items")
+                self?.presenter.present(model: response.data)
             case .failure(let error):
+                print("❌ Interactor received error: \(error)")
                 self?.presenter.presentError(error)
             }
             self?.presenter.stopLoading()
@@ -57,7 +60,7 @@ extension PurchaseWelcomeInteractor: PurchaseWelcomeInteracting {
     func handleDeeplink(urlString: String) {
         guard let url = URL(string: urlString) else { return }
 
-        if urlString.hasPrefix("picpay://") {
+        if urlString.hasPrefix(DeeplinkConfig.baseURL) || urlString.hasPrefix("\(DeeplinkConfig.scheme)://") {
             presenter.openDeeplink(url: url)
         } else if urlString.hasPrefix("https://") {
             presenter.openWebView(url: url)
@@ -67,6 +70,6 @@ extension PurchaseWelcomeInteractor: PurchaseWelcomeInteracting {
 
 private extension PurchaseWelcomeInteractor {
     func log(_ event: PurchaseWelcomeAnalytics) {
-        dependencies.analytics.log(event)
+        dependencies.analytics.log(event.event())
     }
 }

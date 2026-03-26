@@ -1,6 +1,8 @@
-import Core
+// MARK: - TEMPORARILY COMMENTED OUT - Focus on Welcome screen only
+#if false
+// import Core // Commented out - replaced with mock implementation
 import Foundation
-import UIKitUtilities
+// import UIKitUtilities // Commented out - replaced with mock implementation
 
 final class PurchaseDetailDeeplinkResolver: DeeplinkResolver {
     typealias ViewControllerFactory = (String, String, UINavigationController) -> UIViewController
@@ -48,3 +50,4 @@ final class PurchaseDetailDeeplinkResolver: DeeplinkResolver {
         return true
     }
 }
+#endif

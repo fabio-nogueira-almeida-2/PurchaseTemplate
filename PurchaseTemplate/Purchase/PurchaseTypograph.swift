@@ -1,4 +1,4 @@
-import Apollo
+// import Apollo // Commented out - replaced with mock implementation
 
 public enum PurchaseTypograph: String, Equatable {
     case header1
@@ -54,7 +54,7 @@ public enum PurchaseTypograph: String, Equatable {
     }
 }
 
-public struct StringWithTypograph: Equatable {
+public struct StringWithTypograph: Equatable, Hashable {
     var value: String
     var typograph: PurchaseTypograph
 

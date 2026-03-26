@@ -9,11 +9,12 @@ protocol PurchaseListCoordinating: AnyObject {
 }
 
 final class PurchaseListCoordinator {
-    private let dependencies: ModuleDependencies
+    typealias Dependencies = HasDeeplinkOpener
+    private let dependencies: Dependencies
 
     weak var viewController: UIViewController?
 
-    init(dependencies: ModuleDependencies) {
+    init(dependencies: Dependencies) {
         self.dependencies = dependencies
     }
 }
@@ -23,12 +24,19 @@ extension PurchaseListCoordinator: PurchaseListCoordinating {
     func perform(action: PurchaseListAction) {
         switch action {
             case let .detail(offerId, productId, productTypeId):
-                guard let url = URL(
-                    string: InvestmentsDeeplinkPath.purchaseOfferDetail(
-                        offerId: offerId,
-                        productId: productId
-                    ).asDeeplink
-                ) else { return }
+                // Include productTypeId in the deeplink URL
+                print("🔗 PurchaseListCoordinator creating deeplink:")
+                print("   offerId: \(offerId)")
+                print("   productId: \(productId)")
+                print("   productTypeId: \(productTypeId)")
+                
+                let deeplinkString = "\(DeeplinkConfig.baseURL)purchase/offer/\(productId)/\(offerId)?productId=\(productId)&offerId=\(offerId)&productTypeId=\(productTypeId)"
+                print("   Deeplink: \(deeplinkString)")
+                
+                guard let url = URL(string: deeplinkString) else {
+                    print("❌ Failed to create URL from: \(deeplinkString)")
+                    return
+                }
                 dependencies.deeplinkOpener.open(url: url)
         }
     }

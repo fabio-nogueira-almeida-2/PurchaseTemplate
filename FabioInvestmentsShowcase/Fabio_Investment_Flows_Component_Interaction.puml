@@ -1,0 +1,193 @@
+@startuml Fabio_Investment_Flows_Component_Interaction
+!theme spacelab
+title Fabio's Investment Flows - Component Interaction & Data Flow
+
+skinparam backgroundColor #FFFFFF
+skinparam sequenceArrowThickness 2
+skinparam roundcorner 20
+skinparam maxmessagesize 60
+
+actor User as U
+participant "View Controller" as VC
+participant "Presenter" as P
+participant "Interactor" as I
+participant "Service" as S
+participant "Backend API" as API
+participant "StringToken System" as STS
+participant "Metadata Processor" as MP
+participant "Coordinator" as C
+
+== User Interaction Flow ==
+
+U -> VC: User taps investment option
+activate VC
+
+VC -> I: loadOffer()
+activate I
+
+I -> S: getOffer(productId, offerId)
+activate S
+
+S -> API: HTTP GET /products/{id}/offers/{offerId}
+activate API
+
+API --> S: PurchaseProductModel with StringTokens
+deactivate API
+
+S --> I: Response with metadata
+deactivate S
+
+I -> STS: Process StringTokens
+activate STS
+
+STS -> MP: Parse metadata structure
+activate MP
+
+MP --> STS: Processed content fields
+deactivate MP
+
+STS --> I: StringWithTypograph objects
+deactivate STS
+
+I -> P: present(model: PurchaseProductModel)
+activate P
+
+P -> P: createDTO() - Transform to presentation model
+P -> P: generateSections() - Create dynamic sections
+P -> P: generateDocument() - Process documents
+
+P --> VC: display(dto: PurchaseDetailDTO)
+deactivate P
+
+VC -> VC: Update UI with dynamic content
+deactivate I
+
+VC --> U: Display investment details
+deactivate VC
+
+== Navigation Flow ==
+
+U -> VC: User taps "Invest" button
+activate VC
+
+VC -> I: didTapInvest()
+activate I
+
+I -> P: presentInputValueScreen(model)
+activate P
+
+P -> C: navigateToInputValue()
+activate C
+
+C -> C: Create new ViewController with dependencies
+C --> VC: Push to InputValue screen
+deactivate C
+deactivate P
+deactivate I
+deactivate VC
+
+== Backend Template Processing ==
+
+note over STS, MP
+  **Backend Template Architecture:**
+  
+  1. **StringToken Processing:**
+     - Parse value and style from backend
+     - Map to PurchaseTypograph enum
+     - Create StringWithTypograph objects
+  
+  2. **Metadata Processing:**
+     - Parse complex metadata structures
+     - Generate dynamic field mappings
+     - Create section-based layouts
+  
+  3. **Dynamic Content Generation:**
+     - Build UI components from metadata
+     - Apply backend-controlled styling
+     - Support A/B testing variations
+end note
+
+== Error Handling Flow ==
+
+U -> VC: User action triggers error
+activate VC
+
+VC -> I: performAction()
+activate I
+
+I -> S: serviceCall()
+activate S
+
+S -> API: API Request
+activate API
+
+API --> S: Error Response
+deactivate API
+
+S --> I: ApiError
+deactivate S
+
+I -> P: presentError(error)
+activate P
+
+P -> P: Format error message
+P --> VC: displayError(message)
+deactivate P
+
+VC -> VC: Show error to user
+deactivate I
+deactivate VC
+
+== Analytics Flow ==
+
+U -> VC: User interaction
+activate VC
+
+VC -> I: userAction()
+activate I
+
+I -> I: log(analyticsEvent)
+note right: Track user behavior
+
+I -> P: presentData()
+activate P
+
+P --> VC: displayContent()
+deactivate P
+
+deactivate I
+deactivate VC
+
+== Security Flow ==
+
+U -> VC: User attempts sensitive action
+activate VC
+
+VC -> I: performSecureAction()
+activate I
+
+I -> I: dependencies.auth.authenticate()
+note right: PIN validation required
+
+I -> S: secureServiceCall()
+activate S
+
+S -> API: Authenticated request
+activate API
+
+API --> S: Secure response
+deactivate API
+
+S --> I: Success
+deactivate S
+
+I -> P: presentSuccess()
+activate P
+
+P --> VC: displaySuccess()
+deactivate P
+
+deactivate I
+deactivate VC
+
+@enduml

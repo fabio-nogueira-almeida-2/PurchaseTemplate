@@ -1,4 +1,4 @@
-import Core
+import UIKit
 
 protocol PurchaseListPresenting: AnyObject {
     func present(model: [PurchaseProductModel])
@@ -72,11 +72,24 @@ final class PurchaseListPresenter {
 extension PurchaseListPresenter: PurchaseListPresenting {
     func presentDetailForItem(index: Int) {
         guard
-            let id = model?[index].id,
-            let typeId = model?[index].product.id,
-            let productTypeId = model?[index].productType.id else {
+            let modelArray = model,
+            index < modelArray.count else {
+                print("❌ Invalid index \(index) for model count \(model?.count ?? 0)")
                 return
             }
+        
+        let selectedModel = modelArray[index]
+        let id = selectedModel.id
+        let typeId = selectedModel.product.id
+        let productTypeId = selectedModel.productType.id
+        
+        print("📋 List Item Selected:")
+        print("   Index: \(index)")
+        print("   Offer ID: \(id)")
+        print("   Product ID: \(typeId)")
+        print("   ProductType ID: \(productTypeId)")
+        print("   ProductType Name: \(selectedModel.productType.name.value)")
+        
         coordinator.perform(
             action: .detail(
                 offerId: String(id),

@@ -2,21 +2,17 @@ import UIKit
 
 enum PurchaseCustodyDetailFactory {
     static func make(productId: String, offerId: String) -> UIViewController {
-        let container = DependencyContainer()
-        let service = PurchaseCustodyDetailService(service: container.coreService
-            .onMainThread(dependencies: container)
-            .sentinel(
-                dependencies: container, info: .init(scene: "PURCHASE-CUSTODY-DETAIL")
-            )
-        )
-        let coordinator = PurchaseDetailCoordinator(dependencies: container)
-        let presenter = PurchaseDetailPresenter(coordinator: coordinator, dependencies: container)
+        let dependencies = DependencyContainer()
+        let service = PurchaseCustodyDetailService(service: dependencies.coreService)
+        let coordinator = PurchaseDetailCoordinator(dependencies: dependencies)
+        let presenter = PurchaseDetailPresenter(coordinator: coordinator, dependencies: HasNoDependencyImpl())
         let interactor = PurchaseDetailInteractor(
             offerId: offerId,
             productId: productId,
+            productTypeId: nil, // Custody detail doesn't need productTypeId
             service: service,
             presenter: presenter,
-            dependencies: container
+            dependencies: dependencies
         )
         let viewController = PurchaseDetailViewController(interactor: interactor)
 

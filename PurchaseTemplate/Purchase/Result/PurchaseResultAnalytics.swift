@@ -1,4 +1,4 @@
-import CoreTrackingInterface
+import Foundation
 
 struct PurchaseResultAnalytics: AnalyticsKeyProtocol {
     typealias ButtonName = String
@@ -41,6 +41,6 @@ struct PurchaseResultAnalytics: AnalyticsKeyProtocol {
     }
 
     func event() -> AnalyticsEventProtocol {
-        AnalyticsEvent(name, properties: properties)
+        return AnalyticsEvent(name: name, properties: properties)
     }
 }

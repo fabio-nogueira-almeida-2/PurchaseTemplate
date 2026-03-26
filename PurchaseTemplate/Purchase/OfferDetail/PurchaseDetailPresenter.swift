@@ -1,4 +1,4 @@
-import Core
+import UIKit
 
 protocol PurchaseDetailPresenting: AnyObject {
     func present(model: PurchaseProductModel)
@@ -52,7 +52,7 @@ final class PurchaseDetailPresenter {
 
     private func generateSections(with data: PurchaseProductModel) -> [PurchaseDetailDTO.Section] {
         var sections = [PurchaseDetailDTO.Section]()
-        if data.information.metadatas.isNotEmpty {
+        if !data.information.metadatas.isEmpty {
             let metadataSection = PurchaseDetailDTO.Section(
                 title: nil,
                 rows: generateMetadataFields(on: data.information.metadatas)

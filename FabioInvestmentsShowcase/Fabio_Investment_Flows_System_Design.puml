@@ -1,0 +1,248 @@
+@startuml Fabio_Investment_Flows_System_Design
+!theme spacelab
+title Fabio Nogueira's Investment Flows - System Design Architecture
+
+skinparam backgroundColor #FFFFFF
+skinparam componentStyle rectangle
+skinparam packageStyle rectangle
+
+' Define colors
+skinparam component {
+    BackgroundColor #E3F2FD
+    BorderColor #1976D2
+    FontColor #000000
+}
+
+skinparam package {
+    BackgroundColor #F3E5F5
+    BorderColor #7B1FA2
+    FontColor #000000
+}
+
+skinparam database {
+    BackgroundColor #E8F5E8
+    BorderColor #388E3C
+    FontColor #000000
+}
+
+skinparam cloud {
+    BackgroundColor #FFF3E0
+    BorderColor #F57C00
+    FontColor #000000
+}
+
+' Main System Architecture
+package "Investment Flows System" {
+    
+    ' Presentation Layer
+    package "Presentation Layer (VIP)" {
+        component [View Controllers] as VC
+        component [Presenters] as P
+        component [Interactors] as I
+        
+        component [PurchaseCustodyViewController] as PCVC
+        component [PurchaseDetailViewController] as PDVC
+        component [PurchaseListViewController] as PLVC
+        component [OrdersViewController] as OVC
+        component [PurchaseResultViewController] as PRVC
+        
+        component [PurchaseCustodyPresenter] as PCP
+        component [PurchaseDetailPresenter] as PDP
+        component [PurchaseListPresenter] as PLP
+        component [OrdersPresenter] as OP
+        component [PurchaseResultPresenter] as PRP
+        
+        component [PurchaseCustodyInteractor] as PCI
+        component [PurchaseDetailInteractor] as PDI
+        component [PurchaseListInteractor] as PLI
+        component [OrdersInteractor] as OI
+        component [PurchaseResultInteractor] as PRI
+    }
+    
+    ' Navigation Layer
+    package "Navigation & Coordination" {
+        component [Coordinators] as C
+        component [Deep Link Resolvers] as DLR
+        component [Navigation Manager] as NM
+        
+        component [PurchaseCustodyCoordinator] as PCC
+        component [PurchaseDetailCoordinator] as PDC
+        component [PurchaseListCoordinator] as PLC
+        component [OrdersCoordinator] as OC
+        component [PurchaseResultCoordinator] as PRC
+        
+        component [PurchaseCustodyDeeplinkResolver] as PCDLR
+        component [PurchaseDetailDeeplinkResolver] as PDDLR
+        component [PurchaseListDeeplinkResolver] as PLDLR
+        component [OrdersDeeplinkResolver] as ODLR
+        component [PurchaseResultDeeplinkResolver] as PRDLR
+    }
+    
+    ' Service Layer
+    package "Service Layer" {
+        component [API Services] as AS
+        component [Core Service] as CS
+        component [Error Handler] as EH
+        component [Network Manager] as NM2
+        
+        component [PurchaseCustodyService] as PCS
+        component [PurchaseDetailService] as PDS
+        component [PurchaseListService] as PLS
+        component [OrdersService] as OS
+        component [PurchaseResultService] as PRS
+    }
+    
+    ' Backend Template Layer
+    package "Backend Template Architecture" {
+        component [StringToken System] as STS
+        component [Metadata Processor] as MP
+        component [Content Renderer] as CR
+        
+        component [StringToken Parser] as STP
+        component [Typography Engine] as TE
+        component [Style Processor] as SP
+        
+        component [Metadata Parser] as MP2
+        component [Dynamic Content Generator] as DCG
+        component [Field Mapper] as FM
+        
+        component [Dynamic UI Builder] as DUB
+        component [Template Engine] as TE2
+        component [Layout Manager] as LM
+    }
+    
+    ' Infrastructure Layer
+    package "Infrastructure" {
+        component [Dependency Injection] as DI
+        component [Analytics & Tracking] as AT
+        component [Security & Privacy] as SP
+        
+        component [DependencyContainer] as DC
+        component [Factory Pattern] as FP
+        component [Service Locator] as SL
+        
+        component [Event Tracker] as ET
+        component [User Analytics] as UA
+        component [Performance Monitor] as PM
+        
+        component [Authentication] as AUTH
+        component [PIN Validation] as PV
+        component [Safe Mode] as SM
+        component [Data Encryption] as DE
+    }
+}
+
+' External Systems
+cloud "Backend API" as API
+database "Investment API" as IA
+database "User Data" as UD
+database "Product Catalog" as PC
+database "Order Management" as OM
+
+cloud "External Services" as ES
+component [Deep Link Handler] as DLH
+component [WebView Service] as WVS
+component [Analytics Service] as AS2
+
+' Data Flow Connections
+VC --> P : User Interactions
+P --> I : Business Logic
+I --> AS : Data Requests
+AS --> CS : API Calls
+CS --> API : HTTP Requests
+
+' Navigation Flow
+C --> VC : Navigation
+DLR --> C : Deep Link Resolution
+NM --> C : Navigation Management
+
+' Backend Template Flow
+I --> STS : StringToken Processing
+STS --> MP : Metadata Processing
+MP --> CR : Dynamic Content
+CR --> VC : Rendered UI
+
+' Infrastructure Flow
+DI --> VC : Dependency Injection
+DI --> I : Service Injection
+DI --> AS : Service Configuration
+
+AT --> I : Event Tracking
+SP --> I : Security Validation
+
+' External Connections
+CS --> IA : Investment Data
+CS --> UD : User Information
+CS --> PC : Product Details
+CS --> OM : Order Processing
+
+DLH --> DLR : Deep Link Routing
+WVS --> C : WebView Navigation
+AS2 --> AT : Analytics Data
+
+' Backend Template Architecture Details
+note right of STS
+  **StringToken System:**
+  - Dynamic content from backend
+  - Typography control
+  - Style management
+  - A/B testing support
+end note
+
+note right of MP
+  **Metadata Processing:**
+  - Complex data structures
+  - Dynamic field mapping
+  - Content generation
+  - Localization support
+end note
+
+note right of CR
+  **Content Rendering:**
+  - Dynamic UI generation
+  - Template-based layout
+  - Responsive design
+  - Performance optimization
+end note
+
+' VIP Architecture Details
+note left of VC
+  **View Layer:**
+  - User interface
+  - User interactions
+  - Loading states
+  - Error display
+end note
+
+note left of P
+  **Presenter Layer:**
+  - Data transformation
+  - View model creation
+  - UI logic
+  - State management
+end note
+
+note left of I
+  **Interactor Layer:**
+  - Business logic
+  - Service coordination
+  - Data processing
+  - Error handling
+end note
+
+' System Benefits
+note bottom of API
+  **System Benefits:**
+  - Backend-driven content
+  - Dynamic UI generation
+  - A/B testing capability
+  - Rapid content updates
+  - Consistent styling
+  - Multi-language support
+  - Performance optimization
+  - Security & privacy
+  - Comprehensive analytics
+  - Error resilience
+end note
+
+@enduml

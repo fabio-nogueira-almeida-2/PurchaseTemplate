@@ -1,6 +1,5 @@
-import Core
 import Foundation
-import UIKitUtilities
+import UIKit
 
 final class PurchaseListDeeplinkResolver: DeeplinkResolver {
     typealias ViewControllerFactory = (UINavigationController, String, String) -> UIViewController
@@ -21,9 +20,9 @@ final class PurchaseListDeeplinkResolver: DeeplinkResolver {
     }
 
     func canHandle(url: URL, isAuthenticated: Bool) -> DeeplinkResolverResult {
-        guard
-            InvestmentsDeeplinkPath.purchaseList == url.path
-        else {
+        // Check if path matches purchase/offers or purchase/list pattern
+        let path = url.path
+        guard path == "/purchase/offers" || path.hasPrefix("/purchase/list/") else {
             return .notHandleable
         }
         return isAuthenticated ? .handleable : .onlyWithAuth

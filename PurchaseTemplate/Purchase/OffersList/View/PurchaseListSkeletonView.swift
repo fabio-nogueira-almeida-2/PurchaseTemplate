@@ -1,8 +1,4 @@
-import Apollo
-import SkeletonView
-import UI
 import UIKit
-import UIKitUtilities
 
 // MARK: - Layout
 private extension PurchaseListSkeletonView.Layout {
@@ -43,30 +39,31 @@ final class PurchaseListSkeletonView: UIView, ViewConfiguration, StatefulViewing
 
     // MARK: - ViewConfiguration
     func configureViews() {
-        background(color: .background00)
+        backgroundColor = Color.background00.uiColor
     }
 
     func buildViewHierarchy() {
-        addSubviews(rootStackView)
+        addSubview(rootStackView)
     }
 
     func setupConstraints() {
         rootStackView.snp.makeConstraints {
-            $0.top.trailing.leading.equalToSuperview().inset(Space.base04.rawValue)
+            $0.top.equalToSuperview().inset(Space.base04.rawValue)
+            $0.leading.equalToSuperview().inset(Space.base04.rawValue)
+            $0.trailing.equalToSuperview().inset(Space.base04.rawValue)
         }
 
         addTitleComponentToListStack()
         addLineComponentToListStack()
     }
 
-    private func getSkeletonBox(color: Color = Color.grayScale200, opacity: Apollo.Opacity = .full) -> UIView {
+    private func getSkeletonBox(color: Color = Color.grayScale200) -> UIView {
         let view = UIView()
-        view.background(color: color)
-        view.corner(radius: .large)
+        view.backgroundColor = color.uiColor
+        view.layer.cornerRadius = 8
         view.clipsToBounds = true
-        view.isSkeletonable = true
-        let gradient = SkeletonGradient(baseColor: color.color.withAlphaComponent(opacity))
-        view.showAnimatedGradientSkeleton(usingGradient: gradient)
+        // Add simple skeleton animation
+        addSkeletonAnimation(to: view)
         return view
     }
 
@@ -76,21 +73,23 @@ final class PurchaseListSkeletonView: UIView, ViewConfiguration, StatefulViewing
             rootStackView.addArrangedSubview(box)
             box.snp.makeConstraints {
                 $0.height.equalTo(Layout.Size.listItemHeight)
-                $0.trailing.leading.equalToSuperview()
+                $0.leading.equalToSuperview()
+                $0.trailing.equalToSuperview()
             }
         }
     }
 
     private func addTitleComponentToListStack() {
         let firstLine = getSkeletonBox()
-        firstLine.corner(radius: .medium)
+        firstLine.layer.cornerRadius = 4
         let secondLine = getSkeletonBox()
-        secondLine.corner(radius: .medium)
+        secondLine.layer.cornerRadius = 4
         rootStackView.addArrangedSubview(firstLine)
         rootStackView.addArrangedSubview(secondLine)
         firstLine.snp.makeConstraints {
             $0.height.equalTo(Space.base03.rawValue)
-            $0.leading.trailing.equalToSuperview()
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview()
         }
         secondLine.snp.makeConstraints {
             $0.height.equalTo(Space.base03.rawValue)
@@ -103,8 +102,9 @@ final class PurchaseListSkeletonView: UIView, ViewConfiguration, StatefulViewing
         let searchBarStackView = UIView()
         rootStackView.addArrangedSubview(searchBarStackView)
         searchBarStackView.snp.makeConstraints {
-            $0.height.equalTo(Space.base09.rawValue)
-            $0.trailing.leading.equalToSuperview()
+            $0.height.equalTo(Space.base08.rawValue)
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview()
         }
 
         let filter = getSkeletonBox()
@@ -115,12 +115,37 @@ final class PurchaseListSkeletonView: UIView, ViewConfiguration, StatefulViewing
 
         field.snp.makeConstraints {
             $0.height.equalTo(Space.base07.rawValue)
-            $0.top.leading.equalToSuperview()
+            $0.top.equalToSuperview()
+            $0.leading.equalToSuperview()
         }
         filter.snp.makeConstraints {
-            $0.height.width.equalTo(Space.base07.rawValue)
-            $0.top.trailing.equalToSuperview()
+            $0.height.equalTo(Space.base07.rawValue)
+            $0.width.equalTo(Space.base07.rawValue)
+            $0.top.equalToSuperview()
+            $0.trailing.equalToSuperview()
             $0.leading.equalTo(field.snp.trailing).offset(Space.base03.rawValue)
         }
+    }
+}
+
+extension PurchaseListSkeletonView {
+    private func addSkeletonAnimation(to view: UIView) {
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.colors = [
+            UIColor.lightGray.cgColor,
+            UIColor.gray.cgColor,
+            UIColor.lightGray.cgColor
+        ]
+        gradientLayer.locations = [0.0, 0.5, 1.0]
+        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
+        gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
+        view.layer.addSublayer(gradientLayer)
+        
+        let animation = CABasicAnimation(keyPath: "transform.translation.x")
+        animation.fromValue = -view.bounds.width
+        animation.toValue = view.bounds.width
+        animation.duration = 1.5
+        animation.repeatCount = .infinity
+        gradientLayer.add(animation, forKey: "skeletonAnimation")
     }
 }

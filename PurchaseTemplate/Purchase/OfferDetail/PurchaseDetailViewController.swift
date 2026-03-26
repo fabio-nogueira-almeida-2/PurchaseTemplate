@@ -1,7 +1,4 @@
-import Apollo
-import SnapKit
-import UI
-import UIKitUtilities
+import UIKit
 
 struct PurchaseDetailDTO {
     let title: StringWithTypograph?
@@ -57,7 +54,7 @@ final class PurchaseDetailViewController: ViewController<PurchaseDetailInteracti
     private func skeletonViews() -> [UIView] {
         var views = headerView.subviews
         views.append(tableView)
-        views.append(actionButton.makeUIView())
+        views.append(actionButton)
         return views
     }
 
@@ -80,23 +77,26 @@ final class PurchaseDetailViewController: ViewController<PurchaseDetailInteracti
     override func setupConstraints() {
         headerView.snp.makeConstraints {
             $0.top.equalToSuperview()
-            $0.leading.trailing.equalToSuperview()
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview()
             $0.bottom.equalTo(tableView.snp.top)
         }
         tableView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview()
             $0.bottom.equalTo(actionButton.snp.top)
         }
         actionButton.snp.makeConstraints {
             $0.top.equalTo(tableView.snp.bottom)
-            $0.leading.trailing.equalToSuperview().inset(Space.base04.rawValue)
+            $0.leading.equalToSuperview().inset(Space.base04.rawValue)
+            $0.trailing.equalToSuperview().inset(Space.base04.rawValue)
             $0.bottom.equalToSuperview().inset(Space.base04.rawValue)
             $0.height.equalTo(Space.base08.rawValue)
         }
     }
 
     override func configureViews() {
-        view.background(color: .white)
+        view.backgroundColor = .white
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(PurchaseDetailTableViewCell.self, forCellReuseIdentifier: PurchaseDetailTableViewCell.identifier)
@@ -128,7 +128,7 @@ extension PurchaseDetailViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         guard let dto = dto else { return 0 }
         var defaultSections = dto.sections.count
-        if dto.documents.isNotEmpty {
+        if !dto.documents.isEmpty {
             return defaultSections + 1
         }
 
@@ -187,11 +187,15 @@ extension PurchaseDetailViewController: PurchaseDetailDisplaying {
 
     func displayFeedback(feedback: InvestmentsHubFeedback) {
         if feedback == .connectionFailureError {
-            showConnectionError(with: feedback) {[weak self] in
+            display(feedback: feedback, primaryAction: { [weak self] in
                 self?.interactor.fetchData()
+            }) { [weak self] in
+                self?.navigationController?.popViewController(animated: true)
             }
         } else {
-            showGenericError(with: feedback)
+            display(feedback: feedback) { [weak self] in
+                self?.navigationController?.popViewController(animated: true)
+            }
         }
     }
 }

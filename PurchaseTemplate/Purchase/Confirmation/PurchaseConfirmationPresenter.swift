@@ -1,4 +1,4 @@
-import Core
+import UIKit
 
 protocol PurchaseConfirmationPresenting: AnyObject {
     func display(_ model: PurchaseOrderModel)

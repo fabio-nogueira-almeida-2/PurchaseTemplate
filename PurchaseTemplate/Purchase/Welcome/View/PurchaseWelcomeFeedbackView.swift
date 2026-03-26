@@ -1,5 +1,6 @@
-import Apollo
-import UI
+// import Apollo // Commented out - replaced with mock implementation
+// import UI // Commented out - replaced with mock implementation
+import UIKit
 
 final class PurchaseWelcomeFeedbackView: UIView, ViewConfiguration {
     enum Layout {
@@ -11,6 +12,8 @@ final class PurchaseWelcomeFeedbackView: UIView, ViewConfiguration {
     lazy var icon: UIImageView = {
         let view = UIImageView()
         view.image = Icon.feedbackDangerMono.image
+        view.contentMode = .scaleAspectFit
+        view.clipsToBounds = true
         return view
     }()
 
@@ -18,6 +21,7 @@ final class PurchaseWelcomeFeedbackView: UIView, ViewConfiguration {
         let view = Text()
         view.font(Font.label)
         view.foreground(color: .grayScale900)
+        view.numberOfLines = 0
         return view
     }()
 
@@ -34,6 +38,10 @@ final class PurchaseWelcomeFeedbackView: UIView, ViewConfiguration {
         nil
     }
 
+    func configureViews() {
+        // Configure view appearance if needed
+    }
+
     // MARK: - ViewConfiguration
     func buildViewHierarchy() {
         addSubview(icon)
@@ -42,13 +50,18 @@ final class PurchaseWelcomeFeedbackView: UIView, ViewConfiguration {
 
     func setupConstraints() {
         icon.snp.makeConstraints {
-            $0.width.height.equalTo(Layout.Size.icon)
+            $0.width.equalTo(Layout.Size.icon)
+            $0.height.equalTo(Layout.Size.icon)
             $0.leading.equalToSuperview()
-            $0.top.bottom.equalToSuperview().inset(Space.base02.rawValue)
+            $0.top.equalToSuperview().inset(Space.base02.rawValue)
+            $0.bottom.equalToSuperview().inset(Space.base02.rawValue)
         }
         titleText.snp.makeConstraints {
-            $0.leading.equalTo(icon.snp.trailing).offset(Space.base00.rawValue)
-            $0.centerY.equalTo(icon.snp.centerY)
+            let offset = Space.base00.rawValue
+            $0.leading.equalTo(icon.snp.trailing).offset(offset)
+            $0.trailing.equalToSuperview()
+            $0.top.equalToSuperview().inset(Space.base02.rawValue)
+            $0.bottom.equalToSuperview().inset(Space.base02.rawValue)
         }
     }
 }

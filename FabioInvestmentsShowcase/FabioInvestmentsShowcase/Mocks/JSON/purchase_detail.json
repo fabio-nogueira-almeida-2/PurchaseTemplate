@@ -1,0 +1,135 @@
+{
+  "title": {
+    "value": "Tesouro Selic 2029",
+    "style": "title1"
+  },
+  "detail": {
+    "value": "Government bond with inflation protection linked to the SELIC rate",
+    "style": "body1"
+  },
+  "productType": "Fixed Income",
+  "sections": [
+    {
+      "title": "Investment Details",
+      "rows": [
+        {
+          "label": {
+            "value": "Minimum Amount",
+            "style": "body1"
+          },
+          "value": {
+            "value": "R$ 100,00",
+            "style": "title3"
+          }
+        },
+        {
+          "label": {
+            "value": "Maturity Date",
+            "style": "body1"
+          },
+          "value": {
+            "value": "01/01/2029",
+            "style": "body2"
+          }
+        },
+        {
+          "label": {
+            "value": "Interest Rate",
+            "style": "body1"
+          },
+          "value": {
+            "value": "SELIC + 0.5%",
+            "style": "title3"
+          }
+        },
+        {
+          "label": {
+            "value": "Liquidity",
+            "style": "body1"
+          },
+          "value": {
+            "value": "Daily",
+            "style": "body2"
+          }
+        }
+      ]
+    },
+    {
+      "title": "Risk Information",
+      "rows": [
+        {
+          "label": {
+            "value": "Risk Level",
+            "style": "body1"
+          },
+          "value": {
+            "value": "Low",
+            "style": "body2"
+          }
+        },
+        {
+          "label": {
+            "value": "Guarantee",
+            "style": "body1"
+          },
+          "value": {
+            "value": "Federal Government",
+            "style": "body2"
+          }
+        },
+        {
+          "label": {
+            "value": "Credit Rating",
+            "style": "body1"
+          },
+          "value": {
+            "value": "AAA",
+            "style": "body2"
+          }
+        }
+      ]
+    },
+    {
+      "title": "Tax Information",
+      "rows": [
+        {
+          "label": {
+            "value": "Income Tax",
+            "style": "body1"
+          },
+          "value": {
+            "value": "15% on profits",
+            "style": "body2"
+          }
+        },
+        {
+          "label": {
+            "value": "IOF",
+            "style": "body1"
+          },
+          "value": {
+            "value": "Exempt after 30 days",
+            "style": "body2"
+          }
+        }
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "imageIcon": "doc.text",
+      "name": "Prospectus",
+      "url": "https://example.com/tesouro-selic-prospectus.pdf"
+    },
+    {
+      "imageIcon": "doc.text",
+      "name": "Terms and Conditions",
+      "url": "https://example.com/tesouro-selic-terms.pdf"
+    },
+    {
+      "imageIcon": "doc.text",
+      "name": "Risk Disclosure",
+      "url": "https://example.com/tesouro-selic-risk.pdf"
+    }
+  ]
+}

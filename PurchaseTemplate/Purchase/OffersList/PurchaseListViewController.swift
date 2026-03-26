@@ -1,17 +1,14 @@
-import Apollo
-import SnapKit
-import UI
-import UIKitUtilities
+import UIKit
 
 struct PurchaseListDTO {
     let title: StringWithTypograph?
     let detail: StringWithTypograph?
     let headerTitle: StringWithTypograph?
     let cards: [Card]
-    struct Card {
+    struct Card: Hashable {
         let fields: [Field]
     }
-    struct Field {
+    struct Field: Hashable {
         let label: StringWithTypograph?
         let value: StringWithTypograph?
     }
@@ -67,10 +64,13 @@ final class PurchaseListViewController: ViewController<PurchaseListInteracting, 
     override func setupConstraints() {
         headerView.snp.makeConstraints {
             $0.top.equalToSuperview()
-            $0.leading.trailing.equalToSuperview().inset(Space.base03.rawValue)
+            $0.leading.equalToSuperview().inset(Space.base03.rawValue)
+            $0.trailing.equalToSuperview().inset(Space.base03.rawValue)
         }
         tableView.snp.makeConstraints {
-            $0.leading.trailing.bottom.equalToSuperview()
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview()
+            $0.bottom.equalToSuperview()
             $0.top.equalTo(headerView.snp.bottom)
         }
     }
@@ -126,15 +126,30 @@ extension PurchaseListViewController: PurchaseListDisplaying {
     }
 
     func displayFeedback(feedback: InvestmentsHubFeedback) {
+        // Ensure view is fully loaded before showing feedback
+        guard isViewLoaded && view.window != nil else {
+            // If view is not ready, delay the feedback
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
+                self?.displayFeedback(feedback: feedback)
+            }
+            return
+        }
+        
         if feedback == .connectionFailureError {
-            showConnectionError(with: feedback) { [weak self] in
+            display(feedback: feedback, primaryAction: { [weak self] in
                 self?.interactor.fetchData()
+            }) { [weak self] in
+                self?.navigationController?.popViewController(animated: true)
             }
         } else {
-            showGenericError(with: feedback)
+            display(feedback: feedback) { [weak self] in
+                self?.navigationController?.popViewController(animated: true)
+            }
         }
     }
 }
+
+// MARK: - PurchaseCatalogDisplaying (removed - catalog now uses PurchaseCustodyViewController)
 
 // MARK: - StatefulTransitionViewing
 extension PurchaseListViewController: StatefulTransitionViewing {

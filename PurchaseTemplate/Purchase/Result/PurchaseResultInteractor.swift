@@ -1,4 +1,4 @@
-import CoreTrackingInterface
+import Foundation
 
 protocol PurchaseResultInteracting: AnyObject {
     func primaryButtonAction()
@@ -34,6 +34,6 @@ extension PurchaseResultInteractor: PurchaseResultInteracting {
 
 private extension PurchaseResultInteractor {
     func log(_ event: PurchaseResultAnalytics) {
-        dependencies.analytics.log(event)
+        dependencies.analytics.log(event.event())
     }
 }

@@ -1,61 +1,17 @@
-import Apollo
-import UI
+import UIKit
 
 final class PurchaseListHeaderView: UIStackView, ViewConfiguration {
     // MARK: - View
-    lazy var titleText = Text()
-
-    lazy var descriptionText = Text()
-
-    lazy var searchField: SearchField = {
-        let view = SearchField()
-        view.delegate = self
+    lazy var titleText: Text = {
+        let view = Text()
+        view.numberOfLines = 0
         return view
     }()
 
-    lazy var filterIcon: Apollo.IconButton = {
-        let view = IconButton(style: .disabled)
-        view.icon(.filter)
-        view.size(.small)
-        view.action = {[weak self] in
-         }
+    lazy var descriptionText: Text = {
+        let view = Text()
+        view.numberOfLines = 0
         return view
-    }()
-
-    lazy var chipsStackView: UIStackView = {
-        let view = UIStackView()
-        view.axis = .horizontal
-        view.spacing = Space.base02.rawValue
-        view.distribution = .fillProportionally
-        return view
-    }()
-
-    private lazy var chipsScrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.addSubview(chipsStackView)
-        scrollView.showsHorizontalScrollIndicator = false
-        return scrollView
-    }()
-
-    lazy var firstChips: Chips = {
-      Chips(isToogle: true)
-          .text("Em alta")
-          .action { _ in
-          }
-    }()
-
-    lazy var secondChips: Chips = {
-      Chips(isToogle: true)
-          .text("Menor valor")
-          .action { _ in
-          }
-    }()
-
-    lazy var thirdChips: Chips = {
-      Chips(isToogle: true)
-          .text("Maior rentabilidade")
-          .action { _ in
-          }
     }()
 
     // MARK: - Initialize
@@ -76,24 +32,17 @@ final class PurchaseListHeaderView: UIStackView, ViewConfiguration {
     }
 
     func setupConstraints() {
-        titleText.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
-        }
+        // Constraints are handled by UIStackView's arranged subviews
+        // No additional constraints needed
     }
 
     func configureViews() {
         axis = .vertical
         spacing = Space.base04.rawValue
         distribution = .fillProportionally
-        compatibleLayoutMargins = EdgeInsets(top: EdgeInsets.rootView.top,
-                                             leading: EdgeInsets.rootView.leading,
-                                             bottom: Space.base00.rawValue,
-                                             trailing: EdgeInsets.rootView.trailing)
+        layoutMargins = EdgeInsets.rootView
         isLayoutMarginsRelativeArrangement = true
-        background(color: .white)
-    }
-
-    func configureStyles() {
+        backgroundColor = .white
     }
 
     func setup(title: StringWithTypograph, description: StringWithTypograph) {
@@ -101,17 +50,5 @@ final class PurchaseListHeaderView: UIStackView, ViewConfiguration {
         titleText.setTypograph(title.typograph)
         descriptionText.value = description.value
         descriptionText.setTypograph(description.typograph)
-    }
-}
-
-// MARK: - SearchFieldDelegate
-extension PurchaseListHeaderView: SearchFieldDelegate {
-    func didBeginEditing(autofocused: Bool) {
-    }
-
-    func didChangeText(_ newText: String?, previousText: String?) {
-    }
-
-    func didCancel() {
     }
 }

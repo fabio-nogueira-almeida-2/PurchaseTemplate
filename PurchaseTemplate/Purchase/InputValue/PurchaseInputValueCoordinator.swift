@@ -18,7 +18,7 @@ final class PurchaseInputValueCoordinator {
 // MARK: - InsertValueTransferCoordinating
 extension PurchaseInputValueCoordinator: PurchaseInputValueCoordinating {
     func openConfirmTransaction(model: PurchaseOrderModel) {
-        let confirmViewController = PurchaseConfirmationFactory.make(model: model)
-        viewController?.navigationController?.pushViewController(confirmViewController, animated: true)
+        let confirmationViewController = PurchaseConfirmationFactory.make(model: model)
+        viewController?.navigationController?.pushViewController(confirmationViewController, animated: true)
     }
 }

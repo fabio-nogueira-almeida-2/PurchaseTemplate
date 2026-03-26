@@ -1,5 +1,4 @@
-import Core
-import CoreTrackingInterface
+import Foundation
 
 protocol PurchaseListInteracting: AnyObject {
     func fetchData()

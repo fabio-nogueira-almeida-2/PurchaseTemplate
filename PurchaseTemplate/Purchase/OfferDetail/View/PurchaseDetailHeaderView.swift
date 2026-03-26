@@ -1,5 +1,4 @@
-import Apollo
-import UI
+import UIKit
 
 final class PurchaseDetailHeaderView: UIView, ViewConfiguration {
     // MARK: - View
@@ -36,17 +35,20 @@ final class PurchaseDetailHeaderView: UIView, ViewConfiguration {
 
     func setupConstraints() {
         titleText.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview().inset(Space.base03.rawValue)
+            $0.top.equalToSuperview().inset(Space.base03.rawValue)
+            $0.leading.equalToSuperview().inset(Space.base03.rawValue)
+            $0.trailing.equalToSuperview().inset(Space.base03.rawValue)
         }
         detailText.snp.makeConstraints {
             $0.top.equalTo(titleText.snp.bottom).offset(Space.base03.rawValue)
-            $0.leading.trailing.equalToSuperview().inset(Space.base03.rawValue)
+            $0.leading.equalToSuperview().inset(Space.base03.rawValue)
+            $0.trailing.equalToSuperview().inset(Space.base03.rawValue)
             $0.bottom.equalToSuperview()
         }
     }
 
     func configureViews() {
-        background(color: .white)
+        backgroundColor = .white
     }
 
     func configureStyles() {
@@ -55,8 +57,8 @@ final class PurchaseDetailHeaderView: UIView, ViewConfiguration {
     // MARK: - Setup
     func setup(title: StringWithTypograph, detail: StringWithTypograph) {
         titleText.value = title.value
-        titleText.setTypograph(title.typograph)
+        titleText.setTypograph(title.typograph.rawValue)
         detailText.value = detail.value
-        detailText.setTypograph(detail.typograph)
+        detailText.setTypograph(detail.typograph.rawValue)
     }
 }

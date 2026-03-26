@@ -1,5 +1,8 @@
-import Core
-import CoreNetworkingInterface
+// MARK: - TEMPORARILY COMMENTED OUT - Focus on Welcome screen only
+#if false
+// import Core // Commented out - replaced with mock implementation
+import Foundation
+// import CoreNetworkingInterface // Commented out - replaced with mock implementation
 
 final class PurchaseOrderDetailService {
     struct Response: Decodable, Equatable {
@@ -28,3 +31,4 @@ extension PurchaseOrderDetailService: PurchaseDetailServicing {
         }
     }
 }
+#endif

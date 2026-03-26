@@ -1,4 +1,4 @@
-import Core
+import Foundation
 
 protocol PurchaseCustodyPresenting: AnyObject {
     func present(order: [PurchaseProductModel], position: PurchaseCustodyService.PositionResponse.TotalPositionValue)
@@ -54,11 +54,11 @@ final class PurchaseCustodyPresenter {
         PurchaseCustodyDTO.Header(
             left: .init(
                 label: StringWithTypograph(stringToken: position.value.label),
-                value: StringWithTypograph(stringToken: position.value.value!)
+                value: StringWithTypograph(stringToken: position.value.value ?? StringToken(value: "0", style: "body1"))
             ),
             right: .init(
                 label: StringWithTypograph(stringToken: position.yield.label),
-                value: StringWithTypograph(stringToken: position.yield.value!)
+                value: StringWithTypograph(stringToken: position.yield.value ?? StringToken(value: "0%", style: "body1"))
             )
         )
         let detail = StringWithTypograph(
@@ -127,7 +127,7 @@ struct PurchaseCustodyDTO {
     let detail: StringWithTypograph?
     let cards: [Card]
 
-    struct Card {
+    struct Card: Hashable {
         let title: StringWithTypograph
         let fields: [Field]
     }
@@ -137,7 +137,7 @@ struct PurchaseCustodyDTO {
         let right: Field?
     }
 
-    struct Field: Equatable {
+    struct Field: Equatable, Hashable {
         let label: StringWithTypograph?
         let value: StringWithTypograph?
     }

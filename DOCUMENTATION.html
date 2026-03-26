@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchase Template - Complete Documentation</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 2cm;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #fff;
+        }
+        
+        h1 {
+            color: #0066cc;
+            border-bottom: 3px solid #0066cc;
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+        
+        h2 {
+            color: #0088cc;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 8px;
+            margin-top: 25px;
+        }
+        
+        h3 {
+            color: #00aacc;
+            margin-top: 20px;
+        }
+        
+        code {
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        
+        pre {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            border-left: 4px solid #0066cc;
+        }
+        
+        .flow-diagram {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .box {
+            background: #fff;
+            border: 2px solid #0066cc;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        
+        .success {
+            background: #e8f5e9;
+            border-color: #4caf50;
+        }
+        
+        .warning {
+            background: #fff3e0;
+            border-color: #ff9800;
+        }
+        
+        .info {
+            background: #e3f2fd;
+            border-color: #2196f3;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            background: #0066cc;
+            color: white;
+        }
+        
+        tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+        
+        li {
+            margin: 8px 0;
+        }
+        
+        .toc {
+            background: #f0f0f0;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .toc ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .toc li {
+            margin: 5px 0;
+        }
+        
+        .toc a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        
+        .toc a:hover {
+            text-decoration: underline;
+        }
+        
+        @media print {
+            body {
+                max-width: 100%;
+            }
+            
+            .no-print {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Purchase Template - Complete Project Documentation</h1>
+    
+    <div class="info box">
+        <strong>📘 Document Purpose:</strong> This document explains the Purchase Template project architecture, approach, and implementation details for developers and stakeholders.
+    </div>
+    
+    <div class="toc">
+        <h2>Table of Contents</h2>
+        <ul>
+            <li><a href="#introduction">1. Introduction</a></li>
+            <li><a href="#overview">2. Project Overview</a></li>
+            <li><a href="#architecture">3. Architecture</a></li>
+            <li><a href="#template">4. Template Approach</a></li>
+            <li><a href="#frontend">5. Frontend Architecture</a></li>
+            <li><a href="#backend">6. Backend Architecture</a></li>
+            <li><a href="#design-system">7. Design System</a></li>
+            <li><a href="#flows">8. Flow Diagrams</a></li>
+            <li><a href="#concepts">9. Key Concepts</a></li>
+            <li><a href="#implementation">10. Implementation Details</a></li>
+            <li><a href="#getting-started">11. Getting Started</a></li>
+        </ul>
+    </div>
+    
+    <h2 id="introduction">1. Introduction</h2>
+    
+    <h3>What is Purchase Template?</h3>
+    <p>Purchase Template is a <strong>reusable iOS application template</strong> designed to handle purchase flows for different types of investment products. Think of it as a "blueprint" that can be customized for various investment types (like Investment Funds, Royalties, Stocks, etc.) without rewriting the entire application.</p>
+    
+    <div class="success box">
+        <strong>✅ Key Benefit:</strong> Write once, use for many product types!
+    </div>
+    
+    <h3>Why Template Approach?</h3>
+    <p>Instead of creating separate apps for each investment type, we use a <strong>template-based approach</strong> where:</p>
+    <ul>
+        <li>✅ Same screens work for different product types</li>
+        <li>✅ Same codebase handles multiple investment flows</li>
+        <li>✅ Easy to add new product types</li>
+        <li>✅ Consistent user experience across products</li>
+        <li>✅ Faster development time</li>
+    </ul>
+    
+    <h2 id="overview">2. Project Overview</h2>
+    
+    <h3>What This Project Does</h3>
+    <p>This app allows users to:</p>
+    <ol>
+        <li><strong>Browse</strong> different types of investments</li>
+        <li><strong>View details</strong> of specific investment offers</li>
+        <li><strong>Enter investment amount</strong> they want to invest</li>
+        <li><strong>Confirm</strong> their purchase</li>
+        <li><strong>See results</strong> of their transaction</li>
+    </ol>
+    
+    <h3>Investment Types Supported</h3>
+    <p>Currently supports:</p>
+    <ul>
+        <li><strong>Investment Funds</strong> (<code>productTypeId: "1"</code>)</li>
+        <li><strong>Royalties Investment</strong> (<code>productTypeId: "2"</code>)</li>
+        <li><strong>Investment Catalog</strong> - Shows all investments regardless of type</li>
+    </ul>
+    <p>But the template can easily support more types!</p>
+    
+    <h2 id="architecture">3. Architecture</h2>
+    
+    <h3>High-Level Architecture</h3>
+    <div class="flow-diagram">
+        <pre>
+┌─────────────────────────────────────────────────────────┐
+│                    User Interface                       │
+│  (SwiftUI Dashboard + UIKit Screens)                   │
+└─────────────────────────────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────┐
+│              VIPER Architecture Layer                   │
+│  (View → Interactor → Presenter → Coordinator)         │
+└─────────────────────────────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────┐
+│              Service Layer                              │
+│  (API Calls, Data Fetching)                            │
+└─────────────────────────────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────┐
+│              Mock/Backend Layer                         │
+│  (Mock Services for Development)                       │
+└─────────────────────────────────────────────────────────┘
+        </pre>
+    </div>
+    
+    <h3>What is VIPER?</h3>
+    <p>VIPER stands for:</p>
+    <ul>
+        <li><strong>V</strong>iew: What the user sees (UI)</li>
+        <li><strong>I</strong>nteractor: Business logic (what to do)</li>
+        <li><strong>P</strong>resenter: Formats data for display</li>
+        <li><strong>E</strong>ntity: Data models</li>
+        <li><strong>R</strong>outer/Coordinator: Navigation between screens</li>
+    </ul>
+    
+    <div class="info box">
+        <strong>🍽️ Restaurant Analogy:</strong><br>
+        <strong>View</strong> = The plate (what customer sees)<br>
+        <strong>Interactor</strong> = The chef (does the work)<br>
+        <strong>Presenter</strong> = The waiter (brings food to table)<br>
+        <strong>Entity</strong> = The ingredients (data)<br>
+        <strong>Router</strong> = The host (shows you to your table)
+    </div>
+    
+    <h2 id="template">4. Template Approach</h2>
+    
+    <h3>Official Pattern Names</h3>
+    <p>This backend approach follows several well-established software design patterns:</p>
+    
+    <div class="info box">
+        <h4>1. Template Method Pattern (GoF Design Pattern)</h4>
+        <ul>
+            <li>Defines the skeleton of an algorithm in a base class</li>
+            <li>Allows customization of specific steps without changing the overall structure</li>
+            <li>Promotes code reuse and flexibility</li>
+            <li><strong>Reference:</strong> Gang of Four (GoF) Design Patterns</li>
+        </ul>
+    </div>
+    
+    <div class="info box">
+        <h4>2. Configuration-Driven Development / Data-Driven Architecture</h4>
+        <ul>
+            <li>UI rendering is driven by configuration/data from the backend</li>
+            <li>Backend sends structured data (like <code>StringToken</code> with typography styles)</li>
+            <li>Frontend interprets and renders based on this data</li>
+            <li>Separation of concerns: backend controls content, frontend handles presentation</li>
+        </ul>
+    </div>
+    
+    <div class="info box">
+        <h4>3. Multi-Tenant Template System</h4>
+        <ul>
+            <li>Same endpoints serve multiple product types</li>
+            <li>Content adapts based on <code>productTypeId</code> parameter</li>
+            <li>Single codebase handles multiple tenants/products</li>
+            <li>Reduces code duplication and maintenance overhead</li>
+        </ul>
+    </div>
+    
+    <div class="success box">
+        <strong>📚 Combined Approach:</strong> This implementation combines these patterns to create a <strong>Template-Based Multi-Product Architecture</strong> where the same screens and endpoints work for different product types through parameter-driven configuration.
+    </div>
+    
+    <h3>The Core Idea</h3>
+    <p>Instead of hardcoding everything for one product type, we use <strong>parameters</strong> to make screens reusable:</p>
+    
+    <table>
+        <tr>
+            <th>Traditional Approach</th>
+            <th>Template Approach</th>
+        </tr>
+        <tr>
+            <td>
+                <pre>┌─────────────────┐
+│ Funds Screen    │  ← Only works for Funds
+└─────────────────┘</pre>
+            </td>
+            <td>
+                <pre>┌─────────────────┐
+│ Generic Screen  │  ← Works for ANY product type
+│ + productTypeId │     when you pass productTypeId
+└─────────────────┘</pre>
+            </td>
+        </tr>
+    </table>
+    
+    <h3>How It Works</h3>
+    <ol>
+        <li><strong>Dashboard</strong> → User selects investment type</li>
+        <li><strong>productTypeId</strong> is passed through the entire flow</li>
+        <li><strong>Screens adapt</strong> their content based on productTypeId</li>
+        <li><strong>Same code</strong> handles different product types</li>
+    </ol>
+    
+    <h3>Example: Different Content for Same Screen</h3>
+    <div class="box">
+        <p><strong>When productTypeId = "1" (Investment Funds)</strong></p>
+        <p>Welcome Screen shows:</p>
+        <ul>
+            <li>"Bem-vindo aos Fundos de Investimento"</li>
+            <li>"Descubra oportunidades de investimento..."</li>
+        </ul>
+        
+        <p><strong>When productTypeId = "2" (Royalties)</strong></p>
+        <p>Welcome Screen shows:</p>
+        <ul>
+            <li>"Bem-vindo aos Royalties"</li>
+            <li>"Invista em royalties e receba rendimentos mensais..."</li>
+        </ul>
+        
+        <p><strong>Same screen, different content!</strong></p>
+    </div>
+    
+    <h2 id="frontend">5. Frontend Architecture</h2>
+    
+    <h3>Screen Structure</h3>
+    <div class="flow-diagram">
+        <pre>
+Dashboard (SwiftUI)
+    │
+    ├── Investment Funds Flow (productTypeId: "1")
+    │       │
+    │       ├── Welcome Screen
+    │       ├── Offers List Screen
+    │       ├── Offer Detail Screen
+    │       ├── Input Value Screen
+    │       ├── Confirmation Screen
+    │       └── Result Screen
+    │
+    └── Royalties Flow (productTypeId: "2")
+            │
+            ├── Welcome Screen (different content)
+            ├── Offers List Screen (different offers)
+            ├── Offer Detail Screen (different details)
+            ├── Input Value Screen
+            ├── Confirmation Screen
+            └── Result Screen
+        </pre>
+    </div>
+    
+    <h3>Technology Stack</h3>
+    <ul>
+        <li><strong>SwiftUI</strong>: For dashboard and modern UI</li>
+        <li><strong>UIKit</strong>: For complex screens (list, detail, forms)</li>
+        <li><strong>VIPER</strong>: Architecture pattern</li>
+        <li><strong>Deeplinks</strong>: Navigation between screens</li>
+    </ul>
+    
+    <h3>Key Components</h3>
+    
+    <table>
+        <tr>
+            <th>Component</th>
+            <th>Purpose</th>
+            <th>File</th>
+        </tr>
+        <tr>
+            <td>Dashboard</td>
+            <td>First screen - investment type selection</td>
+            <td><code>DashboardView.swift</code></td>
+        </tr>
+        <tr>
+            <td>Welcome Screen</td>
+            <td>Introduces investment type, shows features</td>
+            <td><code>PurchaseWelcomeViewController</code></td>
+        </tr>
+        <tr>
+            <td>Offers List</td>
+            <td>Shows all available offers</td>
+            <td><code>PurchaseListViewController</code></td>
+        </tr>
+        <tr>
+            <td>Offer Detail</td>
+            <td>Detailed information about one offer</td>
+            <td><code>PurchaseDetailViewController</code></td>
+        </tr>
+        <tr>
+            <td>Input Value</td>
+            <td>User enters investment amount</td>
+            <td><code>InsertValueTransferViewController</code></td>
+        </tr>
+        <tr>
+            <td>Confirmation</td>
+            <td>Review before purchase</td>
+            <td><code>PurchaseConfirmationViewController</code></td>
+        </tr>
+        <tr>
+            <td>Result</td>
+            <td>Success/failure screen</td>
+            <td><code>PurchaseResultViewController</code></td>
+        </tr>
+        <tr>
+            <td>Catalog</td>
+            <td>Shows ALL investments from all types</td>
+            <td><code>PurchaseCatalogViewController</code> (uses <code>PurchaseCustodyViewController</code>)</td>
+        </tr>
+        <tr>
+            <td>Custody</td>
+            <td>Displays investment custody and orders</td>
+            <td><code>PurchaseCustodyViewController</code></td>
+        </tr>
+    </table>
+    
+    <h2 id="backend">6. Backend Architecture</h2>
+    
+    <h3>Template-Based API Design</h3>
+    <p>The backend uses a <strong>Template Method Pattern</strong> combined with <strong>Configuration-Driven Architecture</strong> where:</p>
+    <ol>
+        <li><strong>Same endpoints</strong> work for different product types (Multi-Tenant Template System)</li>
+        <li><strong>productTypeId parameter</strong> determines response content (Configuration-Driven)</li>
+        <li><strong>Response structure</strong> is consistent across types (Template Method Pattern)</li>
+        <li><strong>Backend sends structured data</strong> (like <code>StringToken</code> with typography) that frontend interprets (Data-Driven Architecture)</li>
+    </ol>
+    
+    <h3>API Endpoints</h3>
+    <table>
+        <tr>
+            <th>Endpoint</th>
+            <th>Purpose</th>
+        </tr>
+        <tr>
+            <td><code>GET /products/{productId}/welcome?productTypeId={productTypeId}</code></td>
+            <td>Returns welcome screen content</td>
+        </tr>
+        <tr>
+            <td><code>GET /products/{productId}/offers?productTypeId={productTypeId}</code></td>
+            <td>Returns list of offers</td>
+        </tr>
+        <tr>
+            <td><code>GET /products/{productId}/offers/{offerId}</code></td>
+            <td>Returns detailed offer information</td>
+        </tr>
+        <tr>
+            <td><code>GET /products/{productId}/offers/{offerId}/rules</code></td>
+            <td>Returns investment rules (min, max, multiples)</td>
+        </tr>
+        <tr>
+            <td><code>POST /products/{productId}/orders/offers/{offerId}/buy</code></td>
+            <td>Creates a purchase order</td>
+        </tr>
+        <tr>
+            <td><code>GET /catalog</code></td>
+            <td>Returns all investments from all product types</td>
+        </tr>
+    </table>
+    
+    <h3>Response Structure</h3>
+    <p>All responses follow a consistent structure:</p>
+    <pre><code>{
+  "data": {
+    "id": 1,
+    "name": {
+      "value": "Product Name",
+      "style": "header1"
+    },
+    "description": {
+      "value": "Product description",
+      "style": "body1"
+    },
+    "productType": {
+      "id": 1,
+      "name": {...}
+    }
+  }
+}</code></pre>
+    
+    <h3>Mock Services</h3>
+    <p>For development, we use <strong>Mock Services</strong> that:</p>
+    <ul>
+        <li>Return fake data based on productTypeId</li>
+        <li>Simulate network delays</li>
+        <li>Allow testing without real backend</li>
+    </ul>
+    
+    <h2 id="design-system">7. Design System</h2>
+    
+    <h3>Overview</h3>
+    <p>The Purchase Template uses a <strong>unified design system</strong> that spans across backend, mobile, and the entire application. This ensures consistency in appearance, behavior, and user experience across all platforms and product types.</p>
+    
+    <h3>Design System Architecture</h3>
+    <div class="flow-diagram">
+        <pre>
+┌─────────────────────────────────────────────────────────┐
+│              Backend Design System                      │
+│  (StringToken, API Response Structure)                  │
+└────────────────────┬────────────────────────────────────┘
+                     │
+                     │ API Response
+                     ▼
+┌─────────────────────────────────────────────────────────┐
+│            Mobile Design System                         │
+│  (Colors, Typography, Spacing, Components)             │
+└────────────────────┬────────────────────────────────────┘
+                     │
+                     │ Renders
+                     ▼
+┌─────────────────────────────────────────────────────────┐
+│              User Interface                             │
+│  (Consistent Visual Experience)                         │
+└─────────────────────────────────────────────────────────┘
+        </pre>
+    </div>
+    
+    <h3>Backend Design System</h3>
+    
+    <h4>StringToken Structure</h4>
+    <p>The backend sends text content with styling information using <code>StringToken</code>:</p>
+    <pre><code>{
+  "name": {
+    "value": "Investment Fund ABC",
+    "style": "header3"
+  },
+  "description": {
+    "value": "A diversified investment fund...",
+    "style": "body1"
+  }
+}</code></pre>
+    
+    <p><strong>Structure</strong>:</p>
+    <ul>
+        <li><code>value</code>: The actual text content (String)</li>
+        <li><code>style</code>: Typography style identifier (String) - e.g., "header1", "body1", "note"</li>
+    </ul>
+    
+    <div class="success box">
+        <strong>✅ Why This Approach?</strong>
+        <ul>
+            <li>Backend controls both content AND styling</li>
+            <li>Consistent typography across all screens</li>
+            <li>Easy to update styles without app updates</li>
+            <li>Supports dynamic theming</li>
+        </ul>
+    </div>
+    
+    <h4>API Response Structure</h4>
+    <p>All API responses follow a consistent structure:</p>
+    <pre><code>{
+  "data": {
+    "id": 1,
+    "name": {
+      "value": "Product Name",
+      "style": "header1"
+    },
+    "description": {
+      "value": "Description text",
+      "style": "body1"
+    },
+    "productType": {
+      "id": 1,
+      "name": {
+        "value": "Investment Funds",
+        "style": "header3"
+      }
+    },
+    "information": {
+      "metadatas": [
+        {
+          "id": 1,
+          "label": {
+            "value": "Minimum Investment",
+            "style": "label"
+          },
+          "value": {
+            "value": "R$ 1.000,00",
+            "style": "body2"
+          }
+        }
+      ]
+    }
+  }
+}</code></pre>
+    
+    <p><strong>Key Features</strong>:</p>
+    <ul>
+        <li>Consistent <code>data</code> wrapper</li>
+        <li>All text uses <code>StringToken</code> format</li>
+        <li>Nested structures for complex data</li>
+        <li>Metadata arrays for flexible information display</li>
+    </ul>
+    
+    <h3>Mobile Design System</h3>
+    
+    <h4>Color System</h4>
+    <p>The mobile app uses a semantic color system:</p>
+    <table>
+        <tr>
+            <th>Color</th>
+            <th>Hex Value</th>
+            <th>Usage</th>
+        </tr>
+        <tr>
+            <td><code>primary900</code></td>
+            <td>#1A1A1A</td>
+            <td>Darkest primary, headers</td>
+        </tr>
+        <tr>
+            <td><code>primary800</code></td>
+            <td>#333333</td>
+            <td>Dark primary</td>
+        </tr>
+        <tr>
+            <td><code>primary500</code></td>
+            <td>#21C25E</td>
+            <td>Main brand color (green), primary actions</td>
+        </tr>
+        <tr>
+            <td><code>primary200</code></td>
+            <td>#E8F5EE</td>
+            <td>Light primary backgrounds</td>
+        </tr>
+        <tr>
+            <td><code>grayScale900</code></td>
+            <td>#1A1A1A</td>
+            <td>Text primary</td>
+        </tr>
+        <tr>
+            <td><code>grayScale800</code></td>
+            <td>#666666</td>
+            <td>Text secondary</td>
+        </tr>
+        <tr>
+            <td><code>grayScale200</code></td>
+            <td>#E5E5E5</td>
+            <td>Borders, separators</td>
+        </tr>
+        <tr>
+            <td><code>feedbackSuccess500</code></td>
+            <td>#21C25E</td>
+            <td>Success states</td>
+        </tr>
+        <tr>
+            <td><code>feedbackWarning500</code></td>
+            <td>#FF6B35</td>
+            <td>Warning/error states</td>
+        </tr>
+    </table>
+    
+    <h4>Typography System</h4>
+    <p>Typography is controlled by the <code>PurchaseTypograph</code> enum, which maps backend style strings to mobile fonts:</p>
+    <table>
+        <tr>
+            <th>Typograph</th>
+            <th>Font Size</th>
+            <th>Weight</th>
+            <th>Use Case</th>
+        </tr>
+        <tr>
+            <td><code>header1</code></td>
+            <td>28pt</td>
+            <td>Bold</td>
+            <td>Main titles</td>
+        </tr>
+        <tr>
+            <td><code>header2</code></td>
+            <td>22pt</td>
+            <td>Semibold</td>
+            <td>Section titles</td>
+        </tr>
+        <tr>
+            <td><code>header3</code></td>
+            <td>18pt</td>
+            <td>Medium</td>
+            <td>Card titles</td>
+        </tr>
+        <tr>
+            <td><code>header4</code></td>
+            <td>18pt</td>
+            <td>Medium</td>
+            <td>Subsection titles</td>
+        </tr>
+        <tr>
+            <td><code>body1</code></td>
+            <td>18pt</td>
+            <td>Regular</td>
+            <td>Main content</td>
+        </tr>
+        <tr>
+            <td><code>body2</code></td>
+            <td>18pt</td>
+            <td>Regular (highlighted)</td>
+            <td>Emphasized content</td>
+        </tr>
+        <tr>
+            <td><code>note</code></td>
+            <td>16pt</td>
+            <td>Regular</td>
+            <td>Secondary text</td>
+        </tr>
+        <tr>
+            <td><code>notePositive</code></td>
+            <td>16pt</td>
+            <td>Regular (highlighted)</td>
+            <td>Success messages</td>
+        </tr>
+        <tr>
+            <td><code>noteNegative</code></td>
+            <td>16pt</td>
+            <td>Regular (highlighted)</td>
+            <td>Error messages</td>
+        </tr>
+    </table>
+    
+    <h4>Spacing System</h4>
+    <p>Consistent spacing using the <code>Space</code> enum:</p>
+    <table>
+        <tr>
+            <th>Space</th>
+            <th>Value</th>
+            <th>Usage</th>
+        </tr>
+        <tr>
+            <td><code>base00</code></td>
+            <td>4pt</td>
+            <td>Tight spacing, chip padding</td>
+        </tr>
+        <tr>
+            <td><code>base02</code></td>
+            <td>8pt</td>
+            <td>Standard element spacing</td>
+        </tr>
+        <tr>
+            <td><code>base04</code></td>
+            <td>16pt</td>
+            <td>Card padding, section spacing</td>
+        </tr>
+        <tr>
+            <td><code>base06</code></td>
+            <td>24pt</td>
+            <td>Large section spacing</td>
+        </tr>
+        <tr>
+            <td><code>base12</code></td>
+            <td>48pt</td>
+            <td>Maximum spacing, footer heights</td>
+        </tr>
+    </table>
+    
+    <h4>Component System</h4>
+    <p>The design system includes reusable components:</p>
+    <ul>
+        <li><strong>Button</strong>: Primary, Secondary, Tertiary styles</li>
+        <li><strong>Avatar</strong>: Small (32pt), Medium (40pt), Large (56pt)</li>
+        <li><strong>Chips</strong>: Toggle chips for filters and selections</li>
+        <li><strong>Text</strong>: Typography-aware text component</li>
+    </ul>
+    
+    <h3>Design System Integration</h3>
+    <p><strong>How Backend and Mobile Work Together:</strong></p>
+    <ol>
+        <li><strong>Backend sends StringToken</strong> with value and style</li>
+        <li><strong>Mobile receives and converts</strong> to <code>StringWithTypograph</code></li>
+        <li><strong>PurchaseTypograph</strong> maps style string to font/color</li>
+        <li><strong>UI component applies styling</strong> automatically</li>
+        <li><strong>Result</strong>: Consistent appearance across all screens!</li>
+    </ol>
+    
+    <div class="info box">
+        <strong>🎨 Design System Benefits:</strong>
+        <ul>
+            <li>✅ Consistency: Same look and feel across all screens</li>
+            <li>✅ Maintainability: Change styles in one place</li>
+            <li>✅ Scalability: Easy to add new styles</li>
+            <li>✅ Backend Control: Backend can influence styling</li>
+            <li>✅ Type Safety: Compile-time checks for design tokens</li>
+            <li>✅ Reusability: Components work across product types</li>
+        </ul>
+    </div>
+    
+    <h2 id="flows">8. Flow Diagrams</h2>
+    
+    <h3>Complete Purchase Flow</h3>
+    <div class="flow-diagram">
+        <pre>
+┌─────────────┐
+│  Dashboard  │
+│  (Select    │
+│   Type)     │
+└──────┬──────┘
+       │
+       ├──────────────┬───────────────┐
+       │              │               │
+       ▼              ▼               ▼
+┌─────────────┐  ┌─────────────┐  ┌─────────────┐
+│ Investment  │  │  Royalties  │  │   Catalog   │
+│   Funds     │  │ Investment  │  │  (All Types)│
+│ (Type: "1") │  │ (Type: "2") │  │             │
+└──────┬──────┘  └──────┬──────┘  └──────┬──────┘
+       │                 │                 │
+       │                 │                 │ (Uses Custody View)
+       │                 │                 │
+       └────────┬────────┘                 │
+                │                          │
+                ▼                          │
+        ┌───────────────┐                  │
+        │ Welcome Screen│                  │
+        │ (Adapts based │                  │
+        │  on type)     │                  │
+        └───────┬───────┘                  │
+                │                          │
+                ▼                          │
+        ┌───────────────┐                  │
+        │ Offers List   │                  │
+        │ (Shows offers │                  │
+        │  for type)    │                  │
+        └───────┬───────┘                  │
+                │                          │
+                ▼                          │
+        ┌───────────────┐                  │
+        │ Offer Detail  │◄─────────────────┘
+        │ (Full details)│   (Can navigate from Catalog)
+        └───────┬───────┘
+                │
+                ▼
+        ┌───────────────┐
+        │ Input Value   │
+        │ (Enter amount)│
+        └───────┬───────┘
+                │
+                ▼
+        ┌───────────────┐
+        │ Confirmation  │
+        │ (Review & Auth)│
+        └───────┬───────┘
+                │
+                ▼
+        ┌───────────────┐
+        │ Result Screen │
+        │ (Success/Fail)│
+        └───────────────┘
+        </pre>
+    </div>
+    
+    <h3>Data Flow (VIPER)</h3>
+    <div class="flow-diagram">
+        <pre>
+User Action
+    │
+    ▼
+┌──────────┐
+│   View   │ ──(user taps button)──┐
+└────┬─────┘                        │
+     │                              │
+     ▼                              │
+┌──────────────┐                    │
+│  Presenter   │ ──(formats data)──┐│
+└────┬─────────┘                    ││
+     │                              ││
+     ▼                              ││
+┌──────────────┐                    ││
+│ Interactor   │ ──(business logic)─┐││
+└────┬─────────┘                    │││
+     │                              │││
+     ▼                              │││
+┌──────────────┐                    │││
+│   Service    │ ──(API call)───────┐│││
+└────┬─────────┘                    ││││
+     │                              ││││
+     ▼                              ││││
+┌──────────────┐                    ││││
+│   Backend    │                    ││││
+└──────────────┘                    ││││
+     │                              ││││
+     └──(Response)───────────────────┘│││
+         │                            │││
+         └──(Data)────────────────────┘││
+             │                          ││
+             └──(Formatted)─────────────┘│
+                 │                        │
+                 └──(Displayed)───────────┘
+        </pre>
+    </div>
+    
+    <h2 id="concepts">9. Key Concepts</h2>
+    
+    <h3>1. productTypeId</h3>
+    <p><strong>What it is</strong>: A string identifier that tells the app which type of investment we're dealing with.</p>
+    <p><strong>Values</strong>:</p>
+    <ul>
+        <li><code>"1"</code> = Investment Funds</li>
+        <li><code>"2"</code> = Royalties Investment</li>
+    </ul>
+    <p><strong>How it's used</strong>:</p>
+    <ul>
+        <li>Passed from Dashboard → Welcome → List → Detail</li>
+        <li>Determines what content to show</li>
+        <li>Determines what API data to fetch</li>
+    </ul>
+    
+    <h3>2. Deeplinks</h3>
+    <p><strong>What it is</strong>: URLs that navigate between screens within the app.</p>
+    <p><strong>Example</strong>:</p>
+    <pre><code>purchasetemplate://purchase/offers?productId=1&productTypeId=2</code></pre>
+    <p><strong>How it works</strong>:</p>
+    <ol>
+        <li>User taps button</li>
+        <li>App creates deeplink URL</li>
+        <li>Deeplink handler opens correct screen</li>
+        <li>Screen extracts parameters from URL</li>
+    </ol>
+    
+    <h3>3. Mock Services</h3>
+    <p><strong>What it is</strong>: Fake backend services for development.</p>
+    <p><strong>Why use it</strong>:</p>
+    <ul>
+        <li>Test without real backend</li>
+        <li>Work offline</li>
+        <li>Control test data</li>
+        <li>Faster development</li>
+    </ul>
+    
+    <h3>4. StringToken</h3>
+    <p><strong>What it is</strong>: A structure that contains both text and styling information.</p>
+    <p><strong>Structure</strong>:</p>
+    <pre><code>StringToken(
+    value: "Hello World",
+    style: "header1"
+)</code></pre>
+    <p><strong>Why use it</strong>:</p>
+    <ul>
+        <li>Backend controls both content AND styling</li>
+        <li>Consistent typography</li>
+        <li>Easy to change styles</li>
+    </ul>
+    <p><strong>How it works</strong>:</p>
+    <ol>
+        <li>Backend sends <code>StringToken</code> in API response</li>
+        <li>Mobile converts to <code>StringWithTypograph</code></li>
+        <li><code>PurchaseTypograph</code> maps style string to font/color</li>
+        <li>UI component applies styling automatically</li>
+    </ol>
+    
+    <h3>5. Catalog Screen</h3>
+    <p><strong>What it is</strong>: A unified screen that displays ALL investments regardless of type.</p>
+    <p><strong>Features</strong>:</p>
+    <ul>
+        <li>Shows investments from both Investment Funds and Royalties</li>
+        <li>Uses <code>PurchaseCustodyViewController</code> for consistent display</li>
+        <li>Allows browsing without selecting a specific product type</li>
+        <li>Aggregates offers from multiple sources</li>
+    </ul>
+    <p><strong>Implementation</strong>:</p>
+    <ul>
+        <li><code>PurchaseCatalogService</code> fetches from <code>/catalog</code> endpoint</li>
+        <li><code>PurchaseCatalogInteractor</code> conforms to <code>PurchaseCustodyInteracting</code></li>
+        <li><code>PurchaseCatalogPresenter</code> creates <code>PurchaseCustodyDTO</code></li>
+        <li>Reuses custody view components for display</li>
+    </ul>
+    
+    <h2 id="implementation">10. Implementation Details</h2>
+    
+    <h3>How Screens Adapt to Product Type</h3>
+    
+    <h4>Step 1: Dashboard Selection</h4>
+    <pre><code>// User selects "Royalties Investment"
+NavigationLink(
+    destination: PurchaseWelcomeViewWrapper(
+        productId: "2", 
+        productTypeId: "2"  // ← This is the key!
+    )
+)</code></pre>
+    
+    <h4>Step 2: Welcome Screen Receives productTypeId</h4>
+    <pre><code>// PurchaseWelcomeService fetches data
+service.getWelcomeData(
+    productId: "2",
+    productTypeId: "2"  // ← Passed to API
+)</code></pre>
+    
+    <h4>Step 3: Mock Service Returns Type-Specific Data</h4>
+    <pre><code>// PurchaseWelcomeFixture checks productTypeId
+if productTypeId == "2" {
+    // Return Royalties content
+    return RoyaltiesWelcomeData()
+} else {
+    // Return Funds content
+    return FundsWelcomeData()
+}</code></pre>
+    
+    <h4>Step 4: Screen Displays Appropriate Content</h4>
+    <pre><code>// Presenter formats data
+// View displays it
+// User sees Royalties-specific content!</code></pre>
+    
+    <h3>Adding a New Product Type</h3>
+    <p>To add a new product type (e.g., "Stocks"):</p>
+    <ol>
+        <li><strong>Add to Dashboard</strong>:
+            <pre><code>NavigationLink(
+    destination: PurchaseWelcomeViewWrapper(
+        productId: "3", 
+        productTypeId: "3"
+    )
+) {
+    MenuCard(title: "Stocks Investment", ...)
+}</code></pre>
+        </li>
+        <li><strong>Update Fixtures</strong>:
+            <pre><code>// In PurchaseWelcomeFixture.swift
+if productTypeId == "3" {
+    return StocksWelcomeData()
+}</code></pre>
+        </li>
+        <li><strong>Add Product Type ID</strong>:
+            <pre><code>// In TypeSafeIDs.swift
+enum ProductTypeID {
+    case investmentFunds = "1"
+    case royaltiesInvestment = "2"
+    case stocksInvestment = "3"  // ← New!
+}</code></pre>
+        </li>
+    </ol>
+    <p>That's it! The template handles the rest.</p>
+    
+    <h2 id="getting-started">11. Getting Started</h2>
+    
+    <h3>Prerequisites</h3>
+    <ul>
+        <li>Xcode 14.0+</li>
+        <li>iOS 15.0+</li>
+        <li>Swift 5.7+</li>
+    </ul>
+    
+    <h3>Project Structure</h3>
+    <pre><code>PurchaseTemplate/
+├── PurchaseTemplate/
+│   ├── Core/                    # Core utilities
+│   ├── Purchase/                # Purchase flow modules
+│   │   ├── Welcome/            # Welcome screen
+│   │   ├── OffersList/         # List of offers
+│   │   ├── OfferDetail/        # Offer details
+│   │   ├── InputValue/         # Amount input
+│   │   ├── Confirmation/       # Purchase confirmation
+│   │   └── Result/             # Result screen
+│   ├── Mocks/                   # Mock implementations
+│   │   └── Fixtures/           # Mock data
+│   ├── DashboardView.swift     # Main dashboard
+│   └── ContentView.swift       # App entry point
+└── Apollo/                      # Reference framework</code></pre>
+    
+    <h3>Running the App</h3>
+    <ol>
+        <li>Open <code>PurchaseTemplate.xcodeproj</code></li>
+        <li>Select a simulator (iPhone 14 Pro recommended)</li>
+        <li>Press ⌘R to run</li>
+        <li>You'll see the Dashboard with two investment options</li>
+    </ol>
+    
+    <h2>Best Practices</h2>
+    
+    <div class="success box">
+        <h3>✅ Always Pass productTypeId</h3>
+        <p>When navigating between screens, always include <code>productTypeId</code>:</p>
+        <pre><code>// ✅ Good
+coordinator.navigateToDetail(
+    offerId: "1",
+    productId: "1",
+    productTypeId: "2"  // ← Don't forget!
+)</code></pre>
+    </div>
+    
+    <div class="warning box">
+        <h3>⚠️ Use Type-Safe IDs</h3>
+        <p>Instead of strings, use type-safe identifiers:</p>
+        <pre><code>// ✅ Good
+let productType: ProductTypeID = .royaltiesInvestment
+let productId = ProductID("1")</code></pre>
+    </div>
+    
+    <h2>FAQ</h2>
+    
+    <h3>Q: Can I add more product types?</h3>
+    <p><strong>A</strong>: Yes! Just add new option to Dashboard, update fixtures, and add new ProductTypeID enum case.</p>
+    
+    <h3>Q: How do I change the layout style?</h3>
+    <p><strong>A</strong>: The backend can specify layout style in the response. The frontend will adapt automatically.</p>
+    
+    <h3>Q: Can I customize individual screens?</h3>
+    <p><strong>A</strong>: Yes! Each screen module is independent. You can customize colors, fonts, layout, and behavior.</p>
+    
+    <h3>Q: How do I connect to a real backend?</h3>
+    <p><strong>A</strong>: Replace <code>MockCoreService</code> with real API implementation. The interface stays the same!</p>
+    
+    <h2>Conclusion</h2>
+    <div class="info box">
+        <p>Purchase Template is a powerful, flexible system that allows you to:</p>
+        <ul>
+            <li>✅ Support multiple product types with one codebase</li>
+            <li>✅ Maintain consistent user experience</li>
+            <li>✅ Easily add new product types</li>
+            <li>✅ Customize layouts and styles</li>
+            <li>✅ Reuse screens across different products</li>
+        </ul>
+        <p>The template approach saves time, reduces code duplication, and makes maintenance easier.</p>
+    </div>
+    
+    <hr>
+    <p style="text-align: center; color: #666;">
+        <strong>Document Version:</strong> 2.0<br>
+        <strong>Last Updated:</strong> January 2025<br>
+        <strong>Author:</strong> Purchase Template Team
+    </p>
+    
+    <div class="info box" style="margin-top: 20px;">
+        <h3>Recent Updates</h3>
+        <p><strong>Version 2.0</strong> (January 2025):</p>
+        <ul>
+            <li>✅ Added Catalog screen documentation</li>
+            <li>✅ Added comprehensive Design System section</li>
+            <li>✅ Updated flow diagrams to include Catalog</li>
+            <li>✅ Documented backend-mobile design system integration</li>
+            <li>✅ Added custody view controller reuse information</li>
+        </ul>
+    </div>
+    
+    <div class="no-print" style="margin-top: 40px; padding: 20px; background: #f0f0f0; border-radius: 8px;">
+        <p><strong>💡 Tip:</strong> To save as PDF, use your browser's Print function (⌘P / Ctrl+P) and select "Save as PDF"</p>
+    </div>
+</body>
+</html>
+
+

@@ -1,5 +1,6 @@
-import Apollo
-import UI
+// import Apollo // Commented out - replaced with mock implementation
+// import UI // Commented out - replaced with mock implementation
+import UIKit
 
 final class PurchaseWelcomeView: UIView, ViewConfiguration {
     typealias Localizable = Strings.Purchase.Welcome
@@ -18,7 +19,7 @@ final class PurchaseWelcomeView: UIView, ViewConfiguration {
         let view = UIStackView()
         view.axis = .vertical
         view.spacing = Space.base03.rawValue
-        view.distribution = .fillProportionally
+        view.distribution = .fill
         return view
     }()
 
@@ -26,8 +27,8 @@ final class PurchaseWelcomeView: UIView, ViewConfiguration {
         let view = UIStackView()
         view.axis = .vertical
         view.spacing = Space.base03.rawValue
-        view.distribution = .fillProportionally
-        view.compatibleLayoutMargins = EdgeInsets.rootView
+        view.distribution = .fill
+        view.layoutMargins = EdgeInsets.rootView
         view.isLayoutMarginsRelativeArrangement = true
         return view
     }()
@@ -36,6 +37,7 @@ final class PurchaseWelcomeView: UIView, ViewConfiguration {
         let view = Text()
         view.font(Font.medium)
         view.bold()
+        view.numberOfLines = 0
         return view
     }()
 
@@ -43,6 +45,7 @@ final class PurchaseWelcomeView: UIView, ViewConfiguration {
         let view = Text()
         view.font(Font.note)
         view.foreground(color: .grayScale800)
+        view.numberOfLines = 0
         return view
     }()
 
@@ -69,16 +72,25 @@ final class PurchaseWelcomeView: UIView, ViewConfiguration {
 
     func setupConstraints() {
         scrollView.snp.makeConstraints{
-            $0.leading.trailing.top.equalToSuperview()
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview()
+            $0.top.equalToSuperview()
             $0.bottom.equalTo(footerStackView.snp.top)
         }
         footerStackView.snp.makeConstraints {
-            $0.leading.trailing.bottom.equalToSuperview()
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview()
+            $0.bottom.equalToSuperview()
         }
         containerStackView.snp.makeConstraints{
-            $0.top.bottom.equalToSuperview()
+            $0.top.equalToSuperview()
+            $0.bottom.equalToSuperview()
             $0.leading.equalToSuperview().inset(Space.base04.rawValue)
-            $0.width.equalTo(scrollView.snp.width).inset(Space.base04.rawValue)
+            $0.trailing.equalToSuperview().inset(Space.base04.rawValue)
+            // Constrain width to scrollView width minus insets to prevent horizontal scrolling
+            // Use offset before equalTo to subtract from the width
+            let insetValue = Space.base04.rawValue * 2
+            $0.width.offset(-insetValue).equalTo(scrollView.snp.width)
         }
     }
 
@@ -89,6 +101,10 @@ final class PurchaseWelcomeView: UIView, ViewConfiguration {
 
 extension PurchaseWelcomeView {
     func setup(dto: PurchaseWelcomeDTO) {
+        // Clear existing arranged subviews before adding new ones
+        containerStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        footerStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        
         setupHeader(dto: dto.header)
         setupListItems(dto: dto.listItems)
         setupFooter(dto: dto.footer)

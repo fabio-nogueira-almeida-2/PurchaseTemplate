@@ -1,5 +1,6 @@
-import UI
-import Apollo
+// import UI // Commented out - replaced with mock implementation
+// import Apollo // Commented out - replaced with mock implementation
+import UIKit
 
 struct PurchaseWelcomeDTO: Equatable {
     let header: Header
@@ -64,7 +65,8 @@ final class PurchaseWelcomeViewController: ViewController<PurchaseWelcomeInterac
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
-        super.viewDidLoad()
+        super.viewDidLoad() // This will call buildLayout() from base class
+        view.backgroundColor = .white
         interactor.loadWelcomeData()
         navigationItem.setHidesBackButton(true, animated: true)
         navigationItem.rightBarButtonItems = [closeButton.build()]
@@ -84,6 +86,7 @@ final class PurchaseWelcomeViewController: ViewController<PurchaseWelcomeInterac
 // PurchaseWelcomeDisplaying
 extension PurchaseWelcomeViewController: PurchaseWelcomeDisplaying {
     func display(dto: PurchaseWelcomeDTO) {
+        print("📱 Displaying DTO with \(dto.listItems.count) items")
         containerView.setup(dto: dto)
         containerView.confirmButtonAction = { [weak self] in
             self?.interactor.handleDeeplink(urlString: dto.footer.button.action)
@@ -92,11 +95,15 @@ extension PurchaseWelcomeViewController: PurchaseWelcomeDisplaying {
 
     func displayFeedback(feedback: InvestmentsHubFeedback) {
         if feedback == .connectionFailureError {
-            showConnectionError(with: feedback) {[weak self] in
+            display(feedback: feedback, primaryAction: {[weak self] in
                 self?.interactor.loadWelcomeData()
+            }) { [weak self] in
+                self?.navigationController?.popViewController(animated: true)
             }
         } else {
-            showGenericError(with: feedback)
+            display(feedback: feedback) { [weak self] in
+                self?.navigationController?.popViewController(animated: true)
+            }
         }
     }
 

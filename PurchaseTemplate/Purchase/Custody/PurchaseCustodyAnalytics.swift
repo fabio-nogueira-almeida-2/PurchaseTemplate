@@ -1,4 +1,6 @@
-import CoreTrackingInterface
+// MARK: - TEMPORARILY COMMENTED OUT - Focus on Welcome screen only
+
+// import CoreTrackingInterface // Commented out - replaced with mock implementation
 
 struct PurchaseCustodyAnalytics: AnalyticsKeyProtocol {
     typealias ButtonName = String
@@ -41,6 +43,7 @@ struct PurchaseCustodyAnalytics: AnalyticsKeyProtocol {
     }
 
     func event() -> AnalyticsEventProtocol {
-        AnalyticsEvent(name, properties: properties)
+        AnalyticsEvent(name: name, properties: properties)
     }
 }
+

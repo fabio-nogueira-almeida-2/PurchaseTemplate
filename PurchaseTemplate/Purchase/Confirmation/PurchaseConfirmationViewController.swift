@@ -1,5 +1,4 @@
-import Apollo
-import UI
+import UIKit
 
 struct PurchaseConfirmationDTO {
     let title: StringWithTypograph?
@@ -19,7 +18,7 @@ protocol PurchaseConfirmationDisplaying: AnyObject {
     func displayFeedback(feedback: InvestmentsHubFeedback)
 }
 
-final class PurchaseConfirmationViewController: ViewController<PurchaseConfirmationInteracting, UIView>, InvestmentsLoadingViewProtocol {
+final class PurchaseConfirmationViewController: ViewController<PurchaseConfirmationInteracting, UIView> {
     private lazy var closeButton = UIBarButtonBuilder.close { [weak self] in
         self?.dismiss(animated: true)
     }
@@ -40,7 +39,6 @@ final class PurchaseConfirmationViewController: ViewController<PurchaseConfirmat
     }()
 
     private lazy var headerView = PurchaseDetailHeaderView()
-    internal lazy var loadingView = InvestmentsLoadingView()
 
     // MARK: - Properties
     private var dto: PurchaseConfirmationDTO?
@@ -64,17 +62,20 @@ final class PurchaseConfirmationViewController: ViewController<PurchaseConfirmat
 
     override func setupConstraints() {
         headerView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).inset(Space.base04.rawValue)
-            $0.leading.trailing.equalToSuperview()
+            $0.top.equalToSuperview().inset(Space.base04.rawValue)
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview()
             $0.bottom.equalTo(tableView.snp.top)
         }
         tableView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview()
             $0.bottom.equalTo(actionButton.snp.top)
         }
         actionButton.snp.makeConstraints {
             $0.top.equalTo(tableView.snp.bottom)
-            $0.leading.trailing.equalToSuperview().inset(Space.base04.rawValue)
+            $0.leading.equalToSuperview().inset(Space.base04.rawValue)
+            $0.trailing.equalToSuperview().inset(Space.base04.rawValue)
             $0.bottom.equalToSuperview().inset(Space.base04.rawValue)
             $0.height.equalTo(Space.base08.rawValue)
         }
@@ -82,7 +83,7 @@ final class PurchaseConfirmationViewController: ViewController<PurchaseConfirmat
 
     override func configureViews() {
         navigationItem.rightBarButtonItems = [closeButton.build()]
-        view.background(color: .white)
+        view.backgroundColor = .white
         tableView.dataSource = self
         tableView.register(PurchaseDetailTableViewCell.self, forCellReuseIdentifier: PurchaseDetailTableViewCell.identifier)
     }
@@ -91,7 +92,9 @@ final class PurchaseConfirmationViewController: ViewController<PurchaseConfirmat
     func setup(dto: PurchaseConfirmationDTO) {
         self.dto = dto
         headerView.setup(title: dto.title ?? .init(value: "", typograph: ""), detail: .init(value: "", typograph: ""))
-        actionButton.text(dto.button ?? "")
+        if let buttonText = dto.button {
+            actionButton.setTitle(buttonText, for: .normal)
+        }
         tableView.reloadData()
     }
 }
@@ -135,12 +138,14 @@ extension PurchaseConfirmationViewController: PurchaseConfirmationDisplaying {
     }
 
     func displayFeedback(feedback: InvestmentsHubFeedback) {
-        if feedback == .connectionFailureError {
-            showConnectionError(with: feedback) {[weak self] in
+        // Show error feedback
+        let message = feedback == .connectionFailureError ? "Erro de conexão" : "Erro ao processar"
+        let alert = UIAlertController(title: "Erro", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default) { [weak self] _ in
+            if feedback == .connectionFailureError {
                 self?.interactor.fetchData()
             }
-        } else {
-            showGenericError(with: feedback)
-        }
+        })
+        present(alert, animated: true)
     }
 }

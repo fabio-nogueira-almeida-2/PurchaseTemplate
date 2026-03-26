@@ -1,5 +1,4 @@
-import Apollo
-import UI
+import UIKit
 
 final class PurchaseDetailHeaderSectionView: UIView, ViewConfiguration {
     // MARK: - View
@@ -32,12 +31,13 @@ final class PurchaseDetailHeaderSectionView: UIView, ViewConfiguration {
         titleText.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(Space.base03.rawValue)
             $0.trailing.equalToSuperview().inset(Space.base03.rawValue)
-            $0.top.bottom.equalToSuperview().inset(Space.base03.rawValue)
+            $0.top.equalToSuperview().inset(Space.base03.rawValue)
+            $0.bottom.equalToSuperview().inset(Space.base03.rawValue)
         }
     }
 
     func configureViews() {
-        background(color: .white)
+        backgroundColor = .white
     }
 
     func configureStyles() {

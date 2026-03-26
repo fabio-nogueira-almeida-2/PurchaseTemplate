@@ -1,5 +1,4 @@
-import Apollo
-import UI
+import UIKit
 
 extension PurchaseResultViewController.Layout {
     enum Size {
@@ -15,9 +14,10 @@ final class PurchaseResultViewController: ViewController<PurchaseResultInteracti
 
     // MARK: - View
     lazy var icon: Avatar = {
-        let view = Avatar(icon: .check, size: .small, style: .circle)
-        view.background(color: .primary500)
-        view.foreground(color: .white)
+        let view = Avatar()
+        view.image = UIImage(systemName: "checkmark.circle.fill")
+        view.backgroundColor = Color.primary500.uiColor
+        view.tintColor = .white
         return view
     }()
 
@@ -25,7 +25,7 @@ final class PurchaseResultViewController: ViewController<PurchaseResultInteracti
         let view = Text()
         view.font(Font.medium)
         view.value = strings.title
-        view.multilineTextAlignment(.center)
+        view.textAlignment = .center
         return view
     }()
 
@@ -33,7 +33,7 @@ final class PurchaseResultViewController: ViewController<PurchaseResultInteracti
         let view = Text()
         view.font(Font.body)
         view.foreground(color: .grayScale900)
-        view.multilineTextAlignment(.center)
+        view.textAlignment = .center
         view.value = strings.detail
         return view
     }()
@@ -57,7 +57,7 @@ final class PurchaseResultViewController: ViewController<PurchaseResultInteracti
     override func viewDidLoad() {
         super.viewDidLoad()
         buildLayout()
-        view.background(color: .white)
+        view.backgroundColor = .white
     }
 
     // MARK: - ViewConfiguration
@@ -72,25 +72,31 @@ final class PurchaseResultViewController: ViewController<PurchaseResultInteracti
     override func setupConstraints() {
         icon.snp.makeConstraints {
             $0.centerX.equalToSuperview()
+            $0.top.equalToSuperview().inset(Space.base08.rawValue)
+            $0.width.equalTo(60)
+            $0.height.equalTo(60)
         }
         titleText.snp.makeConstraints {
-            $0.top.equalTo(icon.snp.bottom).offset(Space.base02.rawValue)
-            $0.leading.trailing.equalToSuperview().inset(Space.base02.rawValue)
+            $0.top.equalTo(icon.snp.bottom).offset(Space.base04.rawValue)
+            $0.leading.equalToSuperview().inset(Space.base04.rawValue)
+            $0.trailing.equalToSuperview().inset(Space.base04.rawValue)
         }
         detailText.snp.makeConstraints {
-            $0.top.equalTo(titleText.snp.bottom).offset(Space.base01.rawValue)
-            $0.centerY.equalToSuperview().offset(-Space.base06.rawValue)
-            $0.leading.trailing.equalToSuperview().inset(Space.base02.rawValue)
+            $0.top.equalTo(titleText.snp.bottom).offset(Space.base04.rawValue)
+            $0.leading.equalToSuperview().inset(Space.base04.rawValue)
+            $0.trailing.equalToSuperview().inset(Space.base04.rawValue)
         }
         primaryButton.snp.makeConstraints {
-            $0.top.greaterThanOrEqualTo(detailText.snp.bottom)
-            $0.height.equalTo(Layout.Size.buttonHeight)
-            $0.leading.trailing.equalToSuperview().inset(Space.base02.rawValue)
+            $0.top.equalTo(detailText.snp.bottom).offset(Space.base08.rawValue)
+            $0.height.equalTo(CGFloat(Layout.Size.buttonHeight))
+            $0.leading.equalToSuperview().inset(Space.base04.rawValue)
+            $0.trailing.equalToSuperview().inset(Space.base04.rawValue)
         }
         secondaryButton.snp.makeConstraints {
-            $0.top.equalTo(primaryButton.snp.bottom).offset(Space.base02.rawValue)
-            $0.height.equalTo(Layout.Size.buttonHeight)
-            $0.leading.trailing.equalToSuperview().inset(Space.base02.rawValue)
+            $0.top.equalTo(primaryButton.snp.bottom).offset(Space.base04.rawValue)
+            $0.height.equalTo(CGFloat(Layout.Size.buttonHeight))
+            $0.leading.equalToSuperview().inset(Space.base04.rawValue)
+            $0.trailing.equalToSuperview().inset(Space.base04.rawValue)
             $0.bottom.equalToSuperview().inset(Space.base04.rawValue)
         }
     }

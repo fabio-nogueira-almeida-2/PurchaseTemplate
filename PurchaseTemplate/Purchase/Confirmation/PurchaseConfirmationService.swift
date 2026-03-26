@@ -1,5 +1,3 @@
-import Core
-import CoreNetworkingInterface
 import Foundation
 
 protocol PurchaseConfirmationServicing {
@@ -42,9 +40,16 @@ extension PurchaseConfirmationService: PurchaseConfirmationServicing {
             offerId: offerId,
             model: model
         )
-        task = service.request(endpoint: endpoint) { [weak self] result in
+        let decoder = JSONDecoder.useDefaultKeys()
+        task = service.request(endpoint: endpoint, decoder: decoder) { [weak self] (result: Result<Data, Error>) in
             guard self != nil else { return }
-            completion(result.mapError(\.apiError))
+            let mappedResult = result.mapError { error -> ApiError in
+                if let apiError = error as? ApiError {
+                    return apiError
+                }
+                return ApiError.unknown
+            }
+            completion(mappedResult)
         }
     }
 }

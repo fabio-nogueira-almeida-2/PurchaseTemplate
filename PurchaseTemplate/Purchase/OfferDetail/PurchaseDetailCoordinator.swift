@@ -1,5 +1,4 @@
 import UIKit
-import WebViewKitInterface
 
 protocol PurchaseDetailCoordinating: AnyObject {
     func showInputValueScreen(model: PurchaseOrderModel)
@@ -28,7 +27,10 @@ extension PurchaseDetailCoordinator: PurchaseDetailCoordinating {
 
     func openDocument(url: URL) {
         let properties = WebViewProperties()
-        let webView = dependencies.webView.make(with: url, properties: properties)
+        let webView = dependencies.webView.make(with: url, properties: properties) { [weak self] _ in
+            self?.viewController?.navigationController?.setNavigationBarHidden(false, animated: true)
+        }
+        viewController?.navigationController?.setNavigationBarHidden(true, animated: true)
         viewController?.navigationController?.pushViewController(webView, animated: true)
     }
 }

@@ -1,5 +1,4 @@
-import Core
-import CoreTrackingInterface
+import Foundation
 
 protocol PurchaseCustodyInteracting: AnyObject {
     func fetchCustody()
@@ -12,7 +11,7 @@ protocol PurchaseCustodyInteracting: AnyObject {
 
 final class PurchaseCustodyInteractor {
     // MARK: - Properties
-    typealias Dependencies = HasAnalytics & HasDispatchGroup
+    typealias Dependencies = HasAnalytics
     private let dependencies: Dependencies
 
     private let service: PurchaseCustodyServicing
@@ -58,7 +57,9 @@ final class PurchaseCustodyInteractor {
     }
 
     func requestOrderAndPosition() {
-        dependencies.dispatchGroup.enter()
+        let dispatchGroup = DispatchGroup()
+        
+        dispatchGroup.enter()
         service.getPosition(productId: productId) { [weak self] result in
             guard let self = self else { return }
             switch result {
@@ -67,10 +68,10 @@ final class PurchaseCustodyInteractor {
                 case .failure(let error):
                     presenter.presentError(error)
             }
-            dependencies.dispatchGroup.leave()
+            dispatchGroup.leave()
         }
 
-        dependencies.dispatchGroup.enter()
+        dispatchGroup.enter()
         service.getOrder(productId: productId) { [weak self] result in
             guard let self = self else { return }
             switch result {
@@ -79,14 +80,10 @@ final class PurchaseCustodyInteractor {
                 case .failure(let error):
                     presenter.presentError(error)
             }
-            dependencies.dispatchGroup.leave()
+            dispatchGroup.leave()
         }
-    }
-
-    func fetchOrderAndPosition() {
-        presenter.startLoading()
-        requestOrderAndPosition()
-        dependencies.dispatchGroup.notify(queue: .main) { [weak self] in
+        
+        dispatchGroup.notify(queue: .main) { [weak self] in
             guard let self = self else { return }
             guard
                 let position = positionResponse,
@@ -101,11 +98,20 @@ final class PurchaseCustodyInteractor {
             presenter.stopLoading()
         }
     }
+
+    func fetchOrderAndPosition() {
+        presenter.startLoading()
+        requestOrderAndPosition()
+    }
 }
 
 // MARK: - PurchaseCustodyInteracting
 extension PurchaseCustodyInteractor: PurchaseCustodyInteracting {
-    func fetchAll() {}
+    func fetchAll() {
+        // For regular custody, fetchAll shows all items (order + custody combined)
+        // Default to showing orders
+        fetchOrder()
+    }
 
     func fetchCustody() {
         presenter.startLoading()

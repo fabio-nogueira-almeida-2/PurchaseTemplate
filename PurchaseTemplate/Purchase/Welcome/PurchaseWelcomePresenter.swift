@@ -1,6 +1,6 @@
-import Core
-import AssetsKit
-import UI
+// import Core // Commented out - replaced with mock implementation
+// import AssetsKit // Commented out - replaced with mock implementation
+// import UI // Commented out - replaced with mock implementation
 import UIKit
 import Foundation
 

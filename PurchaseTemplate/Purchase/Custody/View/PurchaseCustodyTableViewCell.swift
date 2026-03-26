@@ -1,5 +1,8 @@
-import Apollo
-import UI
+// MARK: - TEMPORARILY COMMENTED OUT - Focus on Welcome screen only
+
+// import Apollo // Commented out - replaced with mock implementation
+import UIKit
+// import UI // Commented out - replaced with mock implementation
 
 extension PurchaseCustodyTableViewCell.Layout {
     enum Size {
@@ -16,7 +19,7 @@ final class PurchaseCustodyTableViewCell: UITableViewCell, ViewConfiguration {
     // MARK: - View
     private lazy var containerView: UIView = {
         let view = UIView()
-        view.background(color: .grayScale050)
+        view.background(color: .background00)
         view.corner(radius: .large)
         return view
     }()
@@ -76,7 +79,7 @@ final class PurchaseCustodyTableViewCell: UITableViewCell, ViewConfiguration {
     private lazy var fieldsStackView: UIStackView = {
         let view = UIStackView()
         view.axis = .vertical
-        view.spacing = Space.base01.rawValue
+        view.spacing = Space.base00.rawValue
         return view
     }()
 
@@ -99,7 +102,7 @@ final class PurchaseCustodyTableViewCell: UITableViewCell, ViewConfiguration {
 
     override func prepareForReuse() {
         super.prepareForReuse()
-        fieldsStackView.removeAllArrangedSubviews()
+        fieldsStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
     }
 
     // MARK: - ViewConfiguration
@@ -124,44 +127,52 @@ final class PurchaseCustodyTableViewCell: UITableViewCell, ViewConfiguration {
 
     func setupConstraints() {
         containerView.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview().inset(Space.base01.rawValue)
-            $0.leading.trailing.equalToSuperview()
+            $0.top.equalToSuperview().inset(Space.base00.rawValue)
+            $0.bottom.equalToSuperview().inset(Space.base00.rawValue)
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview()
         }
 
         titleStackView.snp.makeConstraints {
             $0.top.equalToSuperview().inset(Space.base04.rawValue)
             $0.leading.equalToSuperview().inset(Space.base02.rawValue)
-            $0.trailing.equalTo(arrowView.snp.leading).inset(Space.base02.rawValue)
+            $0.trailing.equalTo(arrowView.snp.leading).offset(-Space.base02.rawValue)
         }
         arrowView.snp.makeConstraints {
             $0.centerY.equalTo(titleStackView.snp.centerY)
             $0.trailing.equalToSuperview().inset(Space.base02.rawValue)
-            $0.height.width.equalTo(Layout.Size.arrow)
+            $0.height.equalTo(CGFloat(Layout.Size.arrow))
+            $0.width.equalTo(CGFloat(Layout.Size.arrow))
         }
         costStackView.snp.makeConstraints {
             $0.top.equalTo(titleStackView.snp.bottom).offset(Space.base02.rawValue)
-            $0.leading.trailing.equalToSuperview().inset(Space.base02.rawValue)
+            $0.leading.equalToSuperview().inset(Space.base02.rawValue)
+            $0.trailing.equalToSuperview().inset(Space.base02.rawValue)
         }
         lineView.snp.makeConstraints {
             $0.top.equalTo(costStackView.snp.bottom).offset(Space.base02.rawValue)
-            $0.height.equalTo(Layout.Size.line)
-            $0.leading.trailing.equalToSuperview().inset(Space.base02.rawValue)
+            $0.height.equalTo(CGFloat(Layout.Size.line))
+            $0.leading.equalToSuperview().inset(Space.base02.rawValue)
+            $0.trailing.equalToSuperview().inset(Space.base02.rawValue)
         }
         fieldsStackView.snp.makeConstraints {
             $0.top.equalTo(lineView.snp.bottom).offset(Space.base02.rawValue)
-            $0.leading.trailing.equalToSuperview().inset(Space.base02.rawValue)
+            $0.leading.equalToSuperview().inset(Space.base02.rawValue)
+            $0.trailing.equalToSuperview().inset(Space.base02.rawValue)
         }
         actionButton.snp.makeConstraints {
             $0.top.equalTo(fieldsStackView.snp.bottom).offset(Space.base02.rawValue)
-            $0.leading.trailing.bottom.equalToSuperview().inset(Space.base02.rawValue)
-            $0.height.equalTo(Layout.Size.buttonHeight)
+            $0.leading.equalToSuperview().inset(Space.base02.rawValue)
+            $0.trailing.equalToSuperview().inset(Space.base02.rawValue)
+            $0.bottom.equalToSuperview().inset(Space.base02.rawValue)
+            $0.height.equalTo(CGFloat(Layout.Size.buttonHeight))
         }
     }
 
     func configureViews() {
         arrowView.isHidden = true
-        actionButton.enable(false)
-        actionButton.inverse()
+        actionButton.isEnabled = false
+        actionButton.alpha = 0.5
         selectionStyle = .none
     }
 
@@ -192,16 +203,18 @@ final class PurchaseCustodyTableViewCell: UITableViewCell, ViewConfiguration {
     private func createFieldViews(_ fields: [PurchaseCustodyDTO.Field]) {
         fields.forEach { field in
             if fields.first == field { return }
-            let titleLabel = Text(field.label?.value ?? "")
+            let titleLabel = Text()
+            titleLabel.value = field.label?.value ?? ""
             if let titleTypograph = field.label?.typograph {
                 titleLabel.setTypograph(titleTypograph)
             }
-            let detailLabel = Text(field.value?.value ?? "")
+            let detailLabel = Text()
+            detailLabel.value = field.value?.value ?? ""
             if let detailTypograph = field.value?.typograph {
                 detailLabel.setTypograph(detailTypograph)
             }
             let stackView = createFieldStackView()
-            detailLabel.multilineTextAlignment(.right)
+            detailLabel.textAlignment = .right
             stackView.addArrangedSubview(titleLabel)
             stackView.addArrangedSubview(detailLabel)
             fieldsStackView.addArrangedSubview(stackView)
@@ -211,8 +224,9 @@ final class PurchaseCustodyTableViewCell: UITableViewCell, ViewConfiguration {
     private func createFieldStackView() -> UIStackView {
         let view = UIStackView()
         view.axis = .horizontal
-        view.spacing = Space.base01.rawValue
+        view.spacing = Space.base00.rawValue
         view.distribution = .fill
         return view
     }
 }
+

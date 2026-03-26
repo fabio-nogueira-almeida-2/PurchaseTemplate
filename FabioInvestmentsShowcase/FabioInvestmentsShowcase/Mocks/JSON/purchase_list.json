@@ -1,0 +1,192 @@
+{
+  "title": {
+    "value": "Available Investments",
+    "style": "title1"
+  },
+  "detail": {
+    "value": "Choose from our curated selection of investment products",
+    "style": "body1"
+  },
+  "headerTitle": {
+    "value": "Investment Options",
+    "style": "title2"
+  },
+  "cards": [
+    {
+      "fields": [
+        {
+          "label": {
+            "value": "Product",
+            "style": "body1"
+          },
+          "value": {
+            "value": "Tesouro Selic 2029",
+            "style": "title3"
+          }
+        },
+        {
+          "label": {
+            "value": "Rate",
+            "style": "body1"
+          },
+          "value": {
+            "value": "SELIC + 0.5%",
+            "style": "body2"
+          }
+        },
+        {
+          "label": {
+            "value": "Minimum",
+            "style": "body1"
+          },
+          "value": {
+            "value": "R$ 100,00",
+            "style": "body2"
+          }
+        },
+        {
+          "label": {
+            "value": "Maturity",
+            "style": "body1"
+          },
+          "value": {
+            "value": "01/01/2029",
+            "style": "body2"
+          }
+        }
+      ]
+    },
+    {
+      "fields": [
+        {
+          "label": {
+            "value": "Product",
+            "style": "body1"
+          },
+          "value": {
+            "value": "CDB Banco XYZ",
+            "style": "title3"
+          }
+        },
+        {
+          "label": {
+            "value": "Rate",
+            "style": "body1"
+          },
+          "value": {
+            "value": "110% CDI",
+            "style": "body2"
+          }
+        },
+        {
+          "label": {
+            "value": "Minimum",
+            "style": "body1"
+          },
+          "value": {
+            "value": "R$ 1.000,00",
+            "style": "body2"
+          }
+        },
+        {
+          "label": {
+            "value": "Maturity",
+            "style": "body1"
+          },
+          "value": {
+            "value": "20/01/2025",
+            "style": "body2"
+          }
+        }
+      ]
+    },
+    {
+      "fields": [
+        {
+          "label": {
+            "value": "Product",
+            "style": "body1"
+          },
+          "value": {
+            "value": "Fund of Funds Conservative",
+            "style": "title3"
+          }
+        },
+        {
+          "label": {
+            "value": "Performance",
+            "style": "body1"
+          },
+          "value": {
+            "value": "+2.3% (12m)",
+            "style": "body2"
+          }
+        },
+        {
+          "label": {
+            "value": "Minimum",
+            "style": "body1"
+          },
+          "value": {
+            "value": "R$ 500,00",
+            "style": "body2"
+          }
+        },
+        {
+          "label": {
+            "value": "Risk",
+            "style": "body1"
+          },
+          "value": {
+            "value": "Conservative",
+            "style": "body2"
+          }
+        }
+      ]
+    },
+    {
+      "fields": [
+        {
+          "label": {
+            "value": "Product",
+            "style": "body1"
+          },
+          "value": {
+            "value": "Music Royalties - Taylor Swift",
+            "style": "title3"
+          }
+        },
+        {
+          "label": {
+            "value": "Type",
+            "style": "body1"
+          },
+          "value": {
+            "value": "Master Recording Rights",
+            "style": "body2"
+          }
+        },
+        {
+          "label": {
+            "value": "Expected Yield",
+            "style": "body1"
+          },
+          "value": {
+            "value": "8-12% annually",
+            "style": "body2"
+          }
+        },
+        {
+          "label": {
+            "value": "Minimum",
+            "style": "body1"
+          },
+          "value": {
+            "value": "R$ 5.000,00",
+            "style": "body2"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,8 +1,4 @@
-import Apollo
-import SkeletonView
-import UI
 import UIKit
-import UIKitUtilities
 
 // MARK: - Layout
 private extension PurchaseDetailSkeletonView.Layout {
@@ -59,26 +55,30 @@ final class PurchaseDetailSkeletonView: UIView, ViewConfiguration, StatefulViewi
 
     // MARK: - ViewConfiguration
     func configureViews() {
-        background(color: .background00)
+        backgroundColor = Color.background00.uiColor
     }
 
     func buildViewHierarchy() {
-        addSubviews(rootStackView)
+        addSubview(rootStackView)
         rootStackView.addArrangedSubview(headerStackview)
         rootStackView.addArrangedSubview(bodyStackview)
     }
 
     func setupConstraints() {
         rootStackView.snp.makeConstraints {
-            $0.top.trailing.leading.equalToSuperview().inset(Space.base04.rawValue)
+            $0.top.equalToSuperview().inset(Space.base04.rawValue)
+            $0.leading.equalToSuperview().inset(Space.base04.rawValue)
+            $0.trailing.equalToSuperview().inset(Space.base04.rawValue)
         }
 
         headerStackview.snp.makeConstraints {
-            $0.trailing.leading.equalToSuperview()
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview()
         }
 
         bodyStackview.snp.makeConstraints {
-            $0.trailing.leading.equalToSuperview()
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview()
         }
 
         addLinesToHeaderStack()
@@ -88,16 +88,14 @@ final class PurchaseDetailSkeletonView: UIView, ViewConfiguration, StatefulViewi
 
     private func getSkeletonBox(
         color: Color = Color.grayScale200,
-        opacity: Apollo.Opacity = .full,
-        cornerRadius: Radius = .large
+        cornerRadius: CGFloat = 8
     ) -> UIView {
         let view = UIView()
-        view.background(color: color)
-        view.corner(radius: cornerRadius)
+        view.backgroundColor = color.uiColor
+        view.layer.cornerRadius = cornerRadius
         view.clipsToBounds = true
-        view.isSkeletonable = true
-        let gradient = SkeletonGradient(baseColor: color.color.withAlphaComponent(opacity))
-        view.showAnimatedGradientSkeleton(usingGradient: gradient)
+        // Add simple skeleton animation
+        addSkeletonAnimation(to: view)
         return view
     }
 
@@ -105,7 +103,7 @@ final class PurchaseDetailSkeletonView: UIView, ViewConfiguration, StatefulViewi
         createTitleItem(to: headerStackview)
         createLineItem(to: headerStackview, inset: Space.base03.rawValue)
         createLineItem(to: headerStackview)
-        createLineItem(to: headerStackview, inset: Space.base05.rawValue)
+        createLineItem(to: headerStackview, inset: Space.base06.rawValue)
     }
 
     private func addListSectionToBodyStack() {
@@ -117,7 +115,8 @@ final class PurchaseDetailSkeletonView: UIView, ViewConfiguration, StatefulViewi
             stack.alignment = .leading
             bodyStackview.addArrangedSubview(stack)
             stack.snp.makeConstraints {
-                $0.trailing.leading.equalToSuperview()
+                $0.leading.equalToSuperview()
+                $0.trailing.equalToSuperview()
             }
             createLineItem(to: stack, inset: Layout.Size.listBiggerTextInset)
             createLineItem(to: stack, inset: Layout.Size.listSmallerTextInset)
@@ -125,7 +124,7 @@ final class PurchaseDetailSkeletonView: UIView, ViewConfiguration, StatefulViewi
     }
 
     private func createTitleItem(to stack: UIStackView) {
-        let title = getSkeletonBox(cornerRadius: .medium)
+        let title = getSkeletonBox(cornerRadius: 4)
         stack.addArrangedSubview(title)
         title.snp.makeConstraints {
             $0.height.equalTo(Space.base07.rawValue)
@@ -135,12 +134,34 @@ final class PurchaseDetailSkeletonView: UIView, ViewConfiguration, StatefulViewi
     }
 
     private func createLineItem(to stack: UIStackView, inset: CGFloat = 0) {
-        let line = getSkeletonBox(cornerRadius: .medium)
+        let line = getSkeletonBox(cornerRadius: 4)
         stack.addArrangedSubview(line)
         line.snp.makeConstraints {
             $0.height.equalTo(Space.base03.rawValue)
             $0.leading.equalToSuperview()
             $0.trailing.equalToSuperview().inset(inset)
         }
+    }
+}
+
+extension PurchaseDetailSkeletonView {
+    private func addSkeletonAnimation(to view: UIView) {
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.colors = [
+            UIColor.lightGray.cgColor,
+            UIColor.gray.cgColor,
+            UIColor.lightGray.cgColor
+        ]
+        gradientLayer.locations = [0.0, 0.5, 1.0]
+        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
+        gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
+        view.layer.addSublayer(gradientLayer)
+        
+        let animation = CABasicAnimation(keyPath: "transform.translation.x")
+        animation.fromValue = -view.bounds.width
+        animation.toValue = view.bounds.width
+        animation.duration = 1.5
+        animation.repeatCount = .infinity
+        gradientLayer.add(animation, forKey: "skeletonAnimation")
     }
 }

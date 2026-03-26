@@ -1,7 +1,7 @@
-import Apollo
-import Core
-import UI
-import Core
+// import Apollo // Commented out - replaced with mock implementation
+// import Core // Commented out - replaced with mock implementation
+// import UI // Commented out - replaced with mock implementation
+import UIKit
 
 final class PurchaseWelcomeHeaderImageView: UIView, ViewConfiguration {
     enum Layout {
@@ -21,6 +21,8 @@ final class PurchaseWelcomeHeaderImageView: UIView, ViewConfiguration {
     lazy var imageView: UIImageView = {
         let view = UIImageView(image: Icon.invoice.image)
         view.tintColor = UIColor(hex: "#FFD55B")
+        view.contentMode = .scaleAspectFit
+        view.clipsToBounds = true
         return view
     }()
 
@@ -40,6 +42,10 @@ final class PurchaseWelcomeHeaderImageView: UIView, ViewConfiguration {
         }
     }
 
+    func configureViews() {
+        // Configure view appearance if needed
+    }
+
     // MARK: - ViewConfiguration
     func buildViewHierarchy() {
         addSubview(containerView)
@@ -48,11 +54,16 @@ final class PurchaseWelcomeHeaderImageView: UIView, ViewConfiguration {
 
     func setupConstraints() {
         containerView.snp.makeConstraints {
-            $0.height.width.equalTo(Layout.Size.image)
-            $0.top.bottom.equalToSuperview()
+            $0.height.equalTo(Layout.Size.image)
+            $0.width.equalTo(Layout.Size.image)
+            $0.top.equalToSuperview()
+            $0.bottom.equalToSuperview()
+            $0.centerX.equalToSuperview()
         }
         imageView.snp.makeConstraints {
             $0.edges.equalToSuperview()
+            $0.width.equalTo(Layout.Size.image)
+            $0.height.equalTo(Layout.Size.image)
         }
     }
 }

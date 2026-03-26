@@ -1,6 +1,7 @@
-import Apollo
-import SkeletonView
-import UI
+// import Apollo // Commented out - replaced with mock implementation
+// import SkeletonView // Commented out - replaced with mock implementation
+// import UI // Commented out - replaced with mock implementation
+import UIKit
 
 protocol PurchaseCustodyViewDelegate: AnyObject {
     func investAction()
@@ -72,6 +73,9 @@ final class PurchaseCustodyView: UIView, ViewConfiguration {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.backgroundColor = .clear
         tableView.separatorStyle = .none
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.estimatedRowHeight = 100
+        tableView.rowHeight = UITableView.automaticDimension
         return tableView
     }()
 
@@ -79,6 +83,9 @@ final class PurchaseCustodyView: UIView, ViewConfiguration {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.backgroundColor = .clear
         tableView.separatorStyle = .none
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.estimatedRowHeight = 100
+        tableView.rowHeight = UITableView.automaticDimension
         return tableView
     }()
 
@@ -139,31 +146,42 @@ final class PurchaseCustodyView: UIView, ViewConfiguration {
     func setupConstraints() {
         headerView.snp.makeConstraints {
             $0.top.equalToSuperview()
-            $0.leading.trailing.equalToSuperview()
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview()
+            // Header will size itself based on content - ensure it doesn't expand infinitely
         }
         chipsScrollView.snp.makeConstraints {
-            $0.top.equalTo(headerView.snp.bottom).inset(Space.base03.rawValue.reverseSign)
-            $0.trailing.leading.equalToSuperview().inset(Space.base04.rawValue)
-            $0.bottom.equalTo(orderTableView.snp.top)
+            $0.top.equalTo(headerView.snp.bottom).offset(Space.base03.rawValue)
+            $0.leading.equalToSuperview().inset(Space.base04.rawValue)
+            $0.trailing.equalToSuperview().inset(Space.base04.rawValue)
+            $0.height.equalTo(40) // Fixed height for chips scroll view
         }
         chipsStackView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
         orderTableView.snp.makeConstraints {
-            $0.top.equalTo(chipsStackView.snp.bottom).inset(Space.base02.rawValue.reverseSign)
-            $0.trailing.leading.equalToSuperview().inset(Space.base04.rawValue)
+            $0.top.equalTo(chipsScrollView.snp.bottom).offset(Space.base02.rawValue)
+            $0.leading.equalToSuperview().inset(Space.base04.rawValue)
+            $0.trailing.equalToSuperview().inset(Space.base04.rawValue)
             $0.bottom.equalTo(footer.snp.top).inset(Space.base04.rawValue)
         }
         custodyTableView.snp.makeConstraints {
-            $0.edges.equalTo(orderTableView)
+            $0.top.equalTo(orderTableView.snp.top)
+            $0.leading.equalTo(orderTableView.snp.leading)
+            $0.trailing.equalTo(orderTableView.snp.trailing)
+            $0.bottom.equalTo(orderTableView.snp.bottom)
         }
         footer.snp.makeConstraints {
-            $0.bottom.trailing.leading.equalToSuperview()
+            $0.bottom.equalToSuperview()
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview()
             $0.height.equalTo(Space.base12.rawValue)
         }
         investButton.snp.makeConstraints {
             $0.top.equalToSuperview().inset(Space.base03.rawValue)
-            $0.leading.trailing.bottom.equalToSuperview().inset(Space.base04.rawValue)
+            $0.leading.equalToSuperview().inset(Space.base04.rawValue)
+            $0.trailing.equalToSuperview().inset(Space.base04.rawValue)
+            $0.bottom.equalToSuperview().inset(Space.base04.rawValue)
         }
     }
 
@@ -180,29 +198,36 @@ final class PurchaseCustodyView: UIView, ViewConfiguration {
     // MARK: - Private
 
     private func changeTableViewVisibility() {
-        let shouldHide = filterSelected == .order
-        orderTableView.isHidden = !shouldHide
-        custodyTableView.isHidden = shouldHide
+        // Show order table for .order and .all filters
+        // Show custody table only for .custody filter
+        switch filterSelected {
+        case .order, .all:
+            orderTableView.isHidden = false
+            custodyTableView.isHidden = true
+        case .custody:
+            orderTableView.isHidden = true
+            custodyTableView.isHidden = false
+        }
     }
 
     private func configureOrderTableView() {
-        orderTableView.isHidden = true
         orderTableView.delegate = self
         orderTableView.dataSource = orderTableViewDataSource
         orderTableView.register(
             PurchaseOrderTableViewCell.self,
-            forCellReuseIdentifier: PurchaseOrderTableViewCell.identifier
+            forCellReuseIdentifier: "PurchaseOrderTableViewCell"
         )
+        orderTableView.isHidden = true // Will be shown by changeTableViewVisibility()
     }
 
     private func configureCustodyTableView() {
-        custodyTableView.isHidden = true
         custodyTableView.delegate = self
         custodyTableView.dataSource = custodyTableViewDataSource
         custodyTableView.register(
             PurchaseCustodyTableViewCell.self,
-            forCellReuseIdentifier: PurchaseCustodyTableViewCell.identifier
+            forCellReuseIdentifier: "PurchaseCustodyTableViewCell"
         )
+        custodyTableView.isHidden = true // Will be shown by changeTableViewVisibility()
     }
 
     private func setupOrderItemProvider(
@@ -226,7 +251,7 @@ final class PurchaseCustodyView: UIView, ViewConfiguration {
         on indexPath: IndexPath,
         with items: PurchaseCustodyDTO.Card) -> UITableViewCell {
             guard let cell = tableView.dequeueReusableCell(
-                withIdentifier: PurchaseOrderTableViewCell.identifier,
+                withIdentifier: "PurchaseOrderTableViewCell",
                 for: indexPath
             ) as? PurchaseOrderTableViewCell else {
                 return UITableViewCell()
@@ -240,7 +265,7 @@ final class PurchaseCustodyView: UIView, ViewConfiguration {
         on indexPath: IndexPath,
         with items: PurchaseCustodyDTO.Card) -> UITableViewCell {
             guard let cell = tableView.dequeueReusableCell(
-                withIdentifier: PurchaseCustodyTableViewCell.identifier,
+                withIdentifier: "PurchaseCustodyTableViewCell",
                 for: indexPath
             ) as? PurchaseCustodyTableViewCell else {
                 return UITableViewCell()
@@ -256,15 +281,54 @@ final class PurchaseCustodyView: UIView, ViewConfiguration {
 
     // MARK: - Public
     func setup(dto: PurchaseCustodyDTO) {
+        print("📊 PurchaseCustodyView.setup() called with \(dto.cards.count) cards, filterSelected: \(filterSelected)")
         headerView.setup(model: dto.header)
-        if filterSelected == .order {
-            orderTableViewDataSource.update(items: dto.cards, from: 0)
-            orderTableView.reloadData()
-        } else {
-            custodyTableViewDataSource.update(items: dto.cards, from: 0)
-            custodyTableView.reloadData()
+        
+        // Update both data sources to ensure data is available
+        orderTableViewDataSource.update(items: dto.cards, from: 0)
+        custodyTableViewDataSource.update(items: dto.cards, from: 0)
+        print("📊 Updated data sources with \(dto.cards.count) cards")
+        
+        // ALWAYS defer reload until view is in window to avoid layout warnings
+        // Even if window != nil, the table view might not be properly laid out yet
+        print("📊 Deferring table reload until view appears")
+        setNeedsReload = true
+    }
+    
+    // Flag to track if we need to reload tables when view appears
+    private var setNeedsReload = false
+    
+    // Call this when view is added to window to reload tables if needed
+    func reloadTablesIfNeeded() {
+        guard setNeedsReload else { return }
+        
+        // Ensure the view itself is in a window
+        guard window != nil else {
+            print("📊 View not yet in window, will retry")
+            return
         }
+        
+        // Set visibility first (this is safe even if not in window yet)
         changeTableViewVisibility()
+        
+        // Determine which table view should be visible
+        let visibleTableView: UITableView?
+        switch filterSelected {
+        case .order, .all:
+            visibleTableView = orderTableView
+        case .custody:
+            visibleTableView = custodyTableView
+        }
+        
+        // Only reload the visible table view if it's actually in the window
+        // This prevents layout warnings for hidden table views
+        if let tableView = visibleTableView, tableView.window != nil {
+            setNeedsReload = false
+            print("📊 Reloading \(tableView == orderTableView ? "orderTableView" : "custodyTableView") now that it's in window")
+            tableView.reloadData()
+        } else {
+            print("📊 Visible table view not yet in window, will retry")
+        }
     }
 }
 
@@ -273,3 +337,4 @@ extension PurchaseCustodyView: UITableViewDelegate {
         delegate?.didSelect(index: indexPath.row)
     }
 }
+

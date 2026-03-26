@@ -1,5 +1,7 @@
-import Core
-import CoreNetworkingInterface
+// import Core // Commented out - replaced with mock implementation
+import Foundation
+// import CoreNetworkingInterface // Commented out - replaced with mock implementation
+import UIKit
 
 protocol PurchaseWelcomeServicing {
     typealias Response = PurchaseWelcomeServicingModel.Response
@@ -53,9 +55,15 @@ extension PurchaseWelcomeService: PurchaseWelcomeServicing {
                         completion: @escaping (Result<Response, ApiError>) -> Void) {
         let endpoint: InvestmentsEndpoint = .purchaseWelcome(productId: productId,
                                                              productTypeId: productTypeId)
-        let decoder = JSONDecoder(.useDefaultKeys)
-        task = service.request(endpoint: endpoint, decoder: decoder) { [weak self] result in
-            completion(result.mapError(\.apiError))
+        let decoder = JSONDecoder.useDefaultKeys()
+        task = service.request(endpoint: endpoint, decoder: decoder) { [weak self] (result: Result<Response, Error>) in
+            let mappedResult = result.mapError { error -> ApiError in
+                if let apiError = error as? ApiError {
+                    return apiError
+                }
+                return ApiError.unknown
+            }
+            completion(mappedResult)
         }
     }
 }

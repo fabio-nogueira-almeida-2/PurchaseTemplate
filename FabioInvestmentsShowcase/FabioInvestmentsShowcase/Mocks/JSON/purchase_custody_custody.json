@@ -1,0 +1,73 @@
+{
+  "data": [
+    {
+      "id": 3,
+      "name": {
+        "value": "Fund of Funds - Conservative",
+        "style": "title2"
+      },
+      "product": {
+        "id": 3,
+        "name": {
+          "value": "Fund of Funds",
+          "style": "body1"
+        }
+      },
+      "productType": {
+        "id": 3,
+        "name": {
+          "value": "Investment Fund",
+          "style": "body1"
+        },
+        "description": {
+          "value": "Diversified investment fund",
+          "style": "caption"
+        }
+      },
+      "information": {
+        "metadatas": [
+          {
+            "label": {
+              "value": "Amount",
+              "style": "body1"
+            },
+            "value": {
+              "value": "R$ 7.750,00",
+              "style": "title3"
+            }
+          },
+          {
+            "label": {
+              "value": "Purchase Date",
+              "style": "body1"
+            },
+            "value": {
+              "value": "10/01/2024",
+              "style": "body2"
+            }
+          },
+          {
+            "label": {
+              "value": "Performance",
+              "style": "body1"
+            },
+            "value": {
+              "value": "+2.3%",
+              "style": "body2"
+            }
+          },
+          {
+            "label": {
+              "value": "Risk Level",
+              "style": "body1"
+            },
+            "value": {
+              "value": "Conservative",
+              "style": "body2"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

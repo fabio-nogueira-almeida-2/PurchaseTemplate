@@ -1,0 +1,34 @@
+{
+  "data": {
+    "total": {
+      "value": {
+        "label": {
+          "value": "Total Value",
+          "style": "body1"
+        },
+        "description": {
+          "value": "Current portfolio value",
+          "style": "caption"
+        },
+        "value": {
+          "value": "R$ 15.750,00",
+          "style": "title2"
+        }
+      },
+      "yield": {
+        "label": {
+          "value": "Total Yield",
+          "style": "body1"
+        },
+        "description": {
+          "value": "Accumulated yield",
+          "style": "caption"
+        },
+        "value": {
+          "value": "R$ 1.250,00",
+          "style": "title2"
+        }
+      }
+    }
+  }
+}

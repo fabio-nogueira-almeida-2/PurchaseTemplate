@@ -1,6 +1,7 @@
-import Core
+// import Core // Commented out - replaced with mock implementation
 import Foundation
-import UIKitUtilities
+import UIKit
+// import UIKitUtilities // Commented out - replaced with mock implementation
 
 final class PurchaseCustodyDeeplinkResolver: DeeplinkResolver {
     typealias ViewControllerFactory = (UINavigationController, String) -> UIViewController
@@ -10,7 +11,7 @@ final class PurchaseCustodyDeeplinkResolver: DeeplinkResolver {
     let viewControllerFactory: ViewControllerFactory
 
     convenience init(dependencies: ModuleDependencies) {
-        self.init(dependencies: dependencies, viewControllerFactory: { _, productId  in
+        self.init(dependencies: dependencies, viewControllerFactory: { _, productId in
             PurchaseCustodyFactory.make(productId: productId)
         })
     }
@@ -23,7 +24,7 @@ final class PurchaseCustodyDeeplinkResolver: DeeplinkResolver {
     func canHandle(url: URL, isAuthenticated: Bool) -> DeeplinkResolverResult {
         guard
             let productId = url.queryParameters["productId"] as? String,
-            InvestmentsDeeplinkPath.purchaseCustody(productId: productId).asDeeplink == url.absoluteString
+            InvestmentsDeeplinkPath.purchaseCustody(productId: productId) == url.path
         else {
             return .notHandleable
         }
@@ -42,3 +43,4 @@ final class PurchaseCustodyDeeplinkResolver: DeeplinkResolver {
         return true
     }
 }
+

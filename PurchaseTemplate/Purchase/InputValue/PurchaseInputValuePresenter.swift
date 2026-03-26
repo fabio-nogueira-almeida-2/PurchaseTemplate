@@ -1,4 +1,4 @@
-import CoreTrackingInterface
+import UIKit
 
 protocol PurchaseInputValuePresenting: InsertValueTransferPresenting {
     func confirmTransactionScreen(model: PurchaseOrderModel)
@@ -95,10 +95,10 @@ private extension PurchaseInputValuePresenter {
     func getBalance(rules: PurchaseOrderRuleModel) -> Double {
         var balance = rules.balance
         if balance == nil {
-            if rules.balanceOrigin == "picpay" {
-                balance = rules.balances.picpay
+            if rules.balanceOrigin == "wallet" {
+                balance = rules.balances.wallet
             } else {
-                balance = rules.balances.picpayInvest
+                balance = rules.balances.invest
             }
         }
 

@@ -1,0 +1,195 @@
+@startuml Fabio_Investment_Flows_Architecture_Layers
+!theme spacelab
+title Fabio's Investment Flows - Architecture Layers & Dependencies
+
+skinparam backgroundColor #FFFFFF
+skinparam packageStyle rectangle
+skinparam componentStyle rectangle
+
+skinparam package {
+    BackgroundColor #E3F2FD
+    BorderColor #1976D2
+    FontColor #000000
+}
+
+skinparam component {
+    BackgroundColor #F3E5F5
+    BorderColor #7B1FA2
+    FontColor #000000
+}
+
+' Architecture Layers
+package "Presentation Layer" {
+    package "View Layer" {
+        component [View Controllers] as VC
+        component [Custom Views] as CV
+        component [Table View Cells] as TVC
+        component [Header Views] as HV
+    }
+    
+    package "Presenter Layer" {
+        component [Presenters] as P
+        component [View Models] as VM
+        component [Data Transformers] as DT
+    }
+    
+    package "Interactor Layer" {
+        component [Interactors] as I
+        component [Business Logic] as BL
+        component [Use Cases] as UC
+    }
+}
+
+package "Navigation Layer" {
+    component [Coordinators] as C
+    component [Deep Link Resolvers] as DLR
+    component [Navigation Manager] as NM
+    component [Flow Controllers] as FC
+}
+
+package "Service Layer" {
+    component [API Services] as AS
+    component [Core Service] as CS
+    component [Network Manager] as NM2
+    component [Error Handler] as EH
+    component [Request/Response Models] as RRM
+}
+
+package "Backend Template Layer" {
+    component [StringToken System] as STS
+    component [Metadata Processor] as MP
+    component [Content Renderer] as CR
+    component [Typography Engine] as TE
+    component [Dynamic UI Builder] as DUB
+}
+
+package "Infrastructure Layer" {
+    component [Dependency Injection] as DI
+    component [Factory Pattern] as FP
+    component [Service Locator] as SL
+    component [Configuration] as CFG
+}
+
+package "Cross-Cutting Concerns" {
+    component [Analytics & Tracking] as AT
+    component [Security & Privacy] as SP
+    component [Error Handling] as EH2
+    component [Performance Monitoring] as PM
+    component [Logging] as LOG
+}
+
+' External Dependencies
+cloud "External Systems" {
+    component [Backend API] as API
+    component [Deep Link Handler] as DLH
+    component [WebView Service] as WVS
+    component [Analytics Service] as AS2
+    component [Authentication Service] as AUTH
+}
+
+' Layer Dependencies
+VC --> P : "depends on"
+P --> I : "depends on"
+I --> AS : "depends on"
+
+C --> VC : "manages"
+DLR --> C : "resolves to"
+NM --> C : "manages"
+
+AS --> CS : "uses"
+CS --> API : "calls"
+
+I --> STS : "processes"
+STS --> MP : "parses"
+MP --> CR : "renders"
+
+DI --> VC : "injects into"
+DI --> I : "injects into"
+DI --> AS : "injects into"
+
+AT --> I : "tracks"
+SP --> I : "validates"
+EH2 --> I : "handles"
+
+' Backend Template Flow
+note right of STS
+  **StringToken Processing:**
+  1. Parse value and style from backend
+  2. Map to PurchaseTypograph enum
+  3. Create StringWithTypograph objects
+  4. Apply dynamic styling
+end note
+
+note right of MP
+  **Metadata Processing:**
+  1. Parse complex metadata structures
+  2. Generate dynamic field mappings
+  3. Create section-based layouts
+  4. Support localization
+end note
+
+note right of CR
+  **Content Rendering:**
+  1. Build UI components from metadata
+  2. Apply backend-controlled styling
+  3. Support A/B testing variations
+  4. Optimize performance
+end note
+
+' VIP Architecture Benefits
+note left of VC
+  **VIP Benefits:**
+  - Clean separation of concerns
+  - Testable architecture
+  - Loose coupling
+  - Single responsibility
+  - Easy maintenance
+end note
+
+note left of P
+  **Presenter Benefits:**
+  - Data transformation
+  - View model creation
+  - UI logic isolation
+  - State management
+end note
+
+note left of I
+  **Interactor Benefits:**
+  - Business logic isolation
+  - Service coordination
+  - Error handling
+  - State management
+end note
+
+' System Architecture Benefits
+note bottom
+  **Overall System Benefits:**
+  
+  **Backend Template Architecture:**
+  - Dynamic content without app updates
+  - A/B testing capability
+  - Rapid content iteration
+  - Consistent styling across flows
+  - Multi-language support
+  
+  **VIP Architecture:**
+  - Clean, maintainable code
+  - Easy testing and mocking
+  - Clear separation of concerns
+  - Scalable architecture
+  
+  **Navigation & Coordination:**
+  - Flexible navigation patterns
+  - Deep linking support
+  - Flow management
+  - Dependency injection
+  
+  **Infrastructure:**
+  - Comprehensive error handling
+  - Security and privacy protection
+  - Performance monitoring
+  - Analytics and tracking
+end note
+
+@enduml

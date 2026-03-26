@@ -1,4 +1,3 @@
-import UI
 import UIKit
 
 enum PurchaseConfirmationAction {
@@ -19,20 +18,33 @@ final class PurchaseConfirmationCoordinator {
         self.dependencies = dependencies
     }
 
-    private func dismissViewsAndPresentResult(productId: String) {
-        viewController?.navigationController?.dismiss(animated: true, completion: {
-            self.presentResultView(productId: productId)
-        })
-    }
-
     private func presentResultView(productId: String) {
         let resultViewController = PurchaseResultFactory.make(productId: productId)
-        guard let navigationController = dependencies
-            .navigationManager
-            .getCurrentNavigation()
-        else { return }
-        resultViewController.modalPresentationStyle = .fullScreen
-        navigationController.topViewController?.present(resultViewController, animated: true)
+        
+        // The confirmation screen is pushed onto the InputValue navigation controller
+        // We need to dismiss the entire modal (InputValue + Confirmation) and present Result
+        if let navigationController = viewController?.navigationController,
+           let presentingViewController = navigationController.presentingViewController {
+            // Dismiss the entire modal stack (InputValue + Confirmation)
+            presentingViewController.dismiss(animated: true) {
+                // After dismissing, present the result screen from the root
+                if let rootNavController = self.dependencies.navigationManager.getCurrentNavigation() {
+                    resultViewController.modalPresentationStyle = .fullScreen
+                    rootNavController.topViewController?.present(resultViewController, animated: true)
+                } else if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                          let window = windowScene.windows.first,
+                          let rootVC = window.rootViewController {
+                    resultViewController.modalPresentationStyle = .fullScreen
+                    rootVC.present(resultViewController, animated: true)
+                }
+            }
+        } else {
+            // Fallback: try to get navigation controller from dependencies
+            if let navigationController = dependencies.navigationManager.getCurrentNavigation() {
+                resultViewController.modalPresentationStyle = .fullScreen
+                navigationController.topViewController?.present(resultViewController, animated: true)
+            }
+        }
     }
 }
 
@@ -41,7 +53,7 @@ extension PurchaseConfirmationCoordinator: PurchaseConfirmationCoordinating {
     func perform(action: PurchaseConfirmationAction) {
         switch action {
             case .result(let productId):
-                dismissViewsAndPresentResult(productId: productId)
+                presentResultView(productId: productId)
         }
     }
 }

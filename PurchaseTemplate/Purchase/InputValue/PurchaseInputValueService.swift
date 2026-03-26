@@ -1,5 +1,4 @@
-import Core
-import CoreNetworkingInterface
+import Foundation
 
 protocol PurchaseInputValueServicing {
     func getData(
@@ -34,9 +33,16 @@ extension PurchaseInputValueService: PurchaseInputValueServicing {
         completion: @escaping (Result<PurchaseInputValueService.Response, ApiError>
         ) -> Void) {
         let endpoint = InvestmentsEndpoint.purchaseOrderRule(productId: productId, offerId: offerId)
-        task = service.request(endpoint: endpoint) { [weak self] result in
+        let decoder = JSONDecoder.useDefaultKeys()
+        task = service.request(endpoint: endpoint, decoder: decoder) { [weak self] (result: Result<PurchaseInputValueService.Response, Error>) in
             guard self != nil else { return }
-            completion(result.mapError(\.apiError))
+            let mappedResult = result.mapError { error -> ApiError in
+                if let apiError = error as? ApiError {
+                    return apiError
+                }
+                return ApiError.unknown
+            }
+            completion(mappedResult)
         }
     }
 }

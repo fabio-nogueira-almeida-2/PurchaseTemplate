@@ -1,6 +1,6 @@
-import Core
+// import Core // Commented out - replaced with mock implementation
 import UIKit
-import WebViewKitInterface
+// import WebViewKitInterface // Commented out - replaced with mock implementation
 
 protocol HasNoDependency {}
 
